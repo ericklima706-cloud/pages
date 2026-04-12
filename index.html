@@ -19,7 +19,7 @@
             box-sizing: border-box;
         }
         body {
-            background-color: #000;
+            background-color: #0a0a0a;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -28,36 +28,117 @@
             font-family: Arial, Helvetica, sans-serif;
             padding: 20px;
         }
-        .headline {
-            color: #fff;
-            font-size: 22px;
-            text-align: center;
-            margin-bottom: 24px;
-            letter-spacing: 0.5px;
+        .header-box {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 18px 28px;
+            margin-bottom: 20px;
+            max-width: 800px;
+            width: 100%;
         }
-        .headline span {
-            color: #ff4444;
+        .header-top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+        .lock-icon {
+            font-size: 20px;
+        }
+        .header-title {
+            color: #fff;
+            font-size: 18px;
             font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .header-sub {
+            color: #999;
+            font-size: 14px;
+            margin-left: 30px;
+        }
+        .live-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid #333;
+        }
+        .live-dot {
+            width: 12px;
+            height: 12px;
+            background-color: #e53935;
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .live-text {
+            color: #e53935;
+            font-size: 15px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            animation: fadeInOut 2s ease-in-out infinite;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .live-separator {
+            color: #666;
+            font-size: 14px;
+        }
+        .replay-text {
+            color: #999;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
         }
         .video-container {
             width: 100%;
             max-width: 800px;
         }
         @media (max-width: 600px) {
-            .headline {
-                font-size: 17px;
-                margin-bottom: 16px;
-                padding: 0 8px;
+            .header-box {
+                padding: 14px 16px;
+                margin-bottom: 14px;
+            }
+            .header-title {
+                font-size: 15px;
+            }
+            .header-sub {
+                font-size: 12px;
+                margin-left: 30px;
+            }
+            .live-text, .replay-text {
+                font-size: 13px;
             }
             body {
-                padding: 16px 10px;
+                padding: 12px 8px;
             }
         }
     </style>
 </head>
 <body>
 
-    <p class="headline"><span>[Aula Secreta]</span> Essa aula sair&aacute; do ar a qualquer momento</p>
+    <div class="header-box">
+        <div class="header-top">
+            <span class="lock-icon">&#128274;</span>
+            <span class="header-title">AULA SECRETA - ACESSO LIMITADO</span>
+        </div>
+        <div class="header-sub">Esta transmiss&atilde;o pode sair do ar a qualquer momento</div>
+        <div class="live-bar">
+            <div class="live-dot"></div>
+            <span class="live-text">AO VIVO AGORA</span>
+            <span class="live-separator">&bull;</span>
+            <span class="replay-text">&Uacute;LTIMO REPLAY</span>
+        </div>
+    </div>
 
     <div class="video-container">
         <vturb-smartplayer id="vid-69d982e87beae73cea8fc77a" style="display: block; margin: 0 auto; width: 100%;"></vturb-smartplayer>
