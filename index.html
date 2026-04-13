@@ -5,6 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Aula Secreta - Acesso Limitado">
     <title>Aula Secreta - Acesso Limitado</title>
+
+    <!-- META PIXEL -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '425057429272718');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=425057429272718&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- FIM META PIXEL -->
+
+    <!-- VTURB PRELOAD -->
     <script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
     <link rel="preload" href="https://scripts.converteai.net/d8bc8c64-4817-4058-bc66-9776129bc229/players/69d982e87beae73cea8fc77a/v4/player.js" as="script">
     <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
@@ -13,121 +33,25 @@
     <link rel="dns-prefetch" href="https://scripts.converteai.net">
     <link rel="dns-prefetch" href="https://images.converteai.net">
     <link rel="dns-prefetch" href="https://api.vturb.com.br">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            background-color: #0a0a0a;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-family: Arial, Helvetica, sans-serif;
-            padding: 30px 20px;
-        }
-        main {
-            width: 100%;
-            max-width: 800px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .header-box {
-            background-color: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 10px;
-            padding: 18px 28px;
-            margin-bottom: 20px;
-            width: 100%;
-        }
-        .header-top {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 6px;
-        }
-        .lock-icon {
-            font-size: 20px;
-        }
-        .header-title {
-            color: #ffffff;
-            font-size: 18px;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-        .header-sub {
-            color: #b0b0b0;
-            font-size: 14px;
-            margin-left: 30px;
-        }
-        .live-bar {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 14px;
-            padding-top: 12px;
-            border-top: 1px solid #333;
-        }
-        .live-dot {
-            width: 12px;
-            height: 12px;
-            background-color: #f44336;
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
-            flex-shrink: 0;
-        }
-        @keyframes pulse {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.85); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-        .live-text {
-            color: #f44336;
-            font-size: 15px;
-            font-weight: bold;
-            letter-spacing: 1.5px;
-            animation: fadeInOut 2s ease-in-out infinite;
-        }
-        @keyframes fadeInOut {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-        .live-separator {
-            color: #888888;
-            font-size: 14px;
-        }
-        .replay-text {
-            color: #b0b0b0;
-            font-size: 14px;
-            font-weight: bold;
-            letter-spacing: 1.5px;
-        }
-        .video-container {
-            width: 100%;
-        }
-        @media (max-width: 600px) {
-            body {
-                padding: 16px 8px;
-            }
-            .header-box {
-                padding: 14px 16px;
-                margin-bottom: 14px;
-            }
-            .header-title {
-                font-size: 15px;
-            }
-            .header-sub {
-                font-size: 12px;
-                margin-left: 30px;
-            }
-            .live-text, .replay-text {
-                font-size: 13px;
-            }
-        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background-color:#0a0a0a;min-height:100vh;display:flex;flex-direction:column;align-items:center;font-family:Arial,Helvetica,sans-serif;padding:30px 20px}
+        main{width:100%;max-width:800px;display:flex;flex-direction:column;align-items:center}
+        .header-box{background-color:#1a1a1a;border:1px solid #333;border-radius:10px;padding:18px 28px;margin-bottom:20px;width:100%}
+        .header-top{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+        .lock-icon{font-size:20px}
+        .header-title{color:#fff;font-size:18px;font-weight:bold;letter-spacing:1px}
+        .header-sub{color:#b0b0b0;font-size:14px;margin-left:30px}
+        .live-bar{display:flex;align-items:center;gap:10px;margin-top:14px;padding-top:12px;border-top:1px solid #333}
+        .live-dot{width:12px;height:12px;background-color:#f44336;border-radius:50%;animation:pulse 2s ease-in-out infinite;flex-shrink:0}
+        @keyframes pulse{0%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}100%{opacity:1;transform:scale(1)}}
+        .live-text{color:#f44336;font-size:15px;font-weight:bold;letter-spacing:1.5px;animation:fadeInOut 2s ease-in-out infinite}
+        @keyframes fadeInOut{0%{opacity:1}50%{opacity:.5}100%{opacity:1}}
+        .live-separator{color:#888;font-size:14px}
+        .replay-text{color:#b0b0b0;font-size:14px;font-weight:bold;letter-spacing:1.5px}
+        .video-container{width:100%}
+        @media(max-width:600px){body{padding:16px 8px}.header-box{padding:14px 16px;margin-bottom:14px}.header-title{font-size:15px}.header-sub{font-size:12px;margin-left:30px}.live-text,.replay-text{font-size:13px}}
     </style>
 </head>
 <body>
@@ -148,7 +72,7 @@
         </header>
 
         <section class="video-container" aria-label="V&iacute;deo da aula">
-            <vturb-smartplayer id="vid-69d982e87beae73cea8fc77a" style="display: block; margin: 0 auto; width: 100%;"></vturb-smartplayer>
+            <vturb-smartplayer id="vid-69d982e87beae73cea8fc77a" style="display:block;margin:0 auto;width:100%"></vturb-smartplayer>
             <script type="text/javascript">
                 var s=document.createElement("script");
                 s.src="https://scripts.converteai.net/d8bc8c64-4817-4058-bc66-9776129bc229/players/69d982e87beae73cea8fc77a/v4/player.js",
