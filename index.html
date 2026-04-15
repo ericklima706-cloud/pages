@@ -4,184 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aula Secreta</title>
+    <link rel="preconnect" href="https://scripts.converteai.net" crossorigin>
+    <link rel="preconnect" href="https://cdn.converteai.net" crossorigin>
+    <link rel="preconnect" href="https://images.converteai.net" crossorigin>
+    <link rel="preconnect" href="https://api.vturb.com.br" crossorigin>
     <script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
     <link rel="preload" href="https://scripts.converteai.net/d8bc8c64-4817-4058-bc66-9776129bc229/players/69dee6979861e5a3457ba11c/v4/player.js" as="script">
     <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
-    <link rel="preload" href="https://cdn.converteai.net/d8bc8c64-4817-4058-bc66-9776129bc229/69dee64dd4ac69505e87c475/main.m3u8" as="fetch">
-    <link rel="dns-prefetch" href="https://cdn.converteai.net">
-    <link rel="dns-prefetch" href="https://scripts.converteai.net">
-    <link rel="dns-prefetch" href="https://images.converteai.net">
-    <link rel="dns-prefetch" href="https://api.vturb.com.br">
-    <!-- Meta Pixel Code -->
-    <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '425057429272718');
-    fbq('track', 'PageView');
-    </script>
-    <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=425057429272718&ev=PageView&noscript=1"
-    /></noscript>
-    <!-- End Meta Pixel Code -->
+    <link rel="preload" href="https://cdn.converteai.net/d8bc8c64-4817-4058-bc66-9776129bc229/69dee64dd4ac69505e87c475/main.m3u8" as="fetch" crossorigin>
+    <link rel="preconnect" href="https://connect.facebook.net">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            background-color: #0a0a0a;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            font-family: Arial, Helvetica, sans-serif;
-            padding: 20px;
-        }
-
-        .header-box {
-            background-color: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 10px;
-            padding: 18px 28px;
-            margin-bottom: 20px;
-            max-width: 800px;
-            width: 100%;
-            margin-top: 20px;
-        }
-
-        .header-top {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 6px;
-        }
-
-        .lock-icon {
-            font-size: 20px;
-        }
-
-        .header-title {
-            color: #fff;
-            font-size: 18px;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-
-        .header-sub {
-            color: #999;
-            font-size: 14px;
-            margin-left: 30px;
-        }
-
-        .live-bar {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 14px;
-            padding-top: 12px;
-            border-top: 1px solid #333;
-        }
-
-        .live-dot {
-            width: 12px;
-            height: 12px;
-            background-color: #e53935;
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.85); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
-        .live-text {
-            color: #e53935;
-            font-size: 15px;
-            font-weight: bold;
-            letter-spacing: 1.5px;
-            animation: fadeInOut 2s ease-in-out infinite;
-        }
-
-        @keyframes fadeInOut {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-
-        .live-separator {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .replay-text {
-            color: #999;
-            font-size: 14px;
-            font-weight: bold;
-            letter-spacing: 1.5px;
-        }
-
-        .video-container {
-            width: 100%;
-            max-width: 800px;
-        }
-
-        @media (max-width: 600px) {
-            .header-box {
-                padding: 14px 16px;
-                margin-bottom: 14px;
-                margin-top: 10px;
-            }
-            .header-title {
-                font-size: 15px;
-            }
-            .header-sub {
-                font-size: 12px;
-                margin-left: 30px;
-            }
-            .live-text, .replay-text {
-                font-size: 13px;
-            }
-            body {
-                padding: 12px 8px;
-            }
-        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background-color:#000;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:16px}
+        .video-container{width:100%;max-width:800px;margin-top:10px;aspect-ratio:16/9;background:#000;contain:layout style paint}
+        @media(max-width:600px){body{padding:8px 4px}.video-container{margin-top:4px}}
     </style>
 </head>
 <body>
 
-    <header class="header-box" role="banner">
-        <div class="header-top">
-            <span class="lock-icon" aria-hidden="true">&#128274;</span>
-            <span class="header-title">AULA SECRETA - ACESSO LIMITADO</span>
-        </div>
-        <div class="header-sub">Esta transmiss&atilde;o pode sair do ar a qualquer momento</div>
-
-        <div class="live-bar" aria-label="Transmiss&atilde;o ao vivo">
-            <div class="live-dot" aria-hidden="true"></div>
-            <span class="live-text">AO VIVO AGORA</span>
-            <span class="live-separator" aria-hidden="true">&bull;</span>
-            <span class="replay-text">&Uacute;LTIMO REPLAY</span>
-        </div>
-    </header>
-
-    <main class="video-container" role="main">
-        <vturb-smartplayer id="vid-69dee6979861e5a3457ba11c" style="display: block; margin: 0 auto; width: 100%;"></vturb-smartplayer>
-        <script type="text/javascript">
+    <div class="video-container">
+        <vturb-smartplayer id="vid-69dee6979861e5a3457ba11c" style="display:block;margin:0 auto;width:100%"></vturb-smartplayer>
+        <script>
             var s=document.createElement("script");
-            s.src="https://scripts.converteai.net/d8bc8c64-4817-4058-bc66-9776129bc229/players/69dee6979861e5a3457ba11c/v4/player.js",
-            s.async=!0,document.head.appendChild(s);
+            s.src="https://scripts.converteai.net/d8bc8c64-4817-4058-bc66-9776129bc229/players/69dee6979861e5a3457ba11c/v4/player.js";
+            s.async=!0;
+            document.head.appendChild(s);
         </script>
-    </main>
+    </div>
+
+    <script>
+    window.addEventListener('load',function(){
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init','425057429272718');
+        fbq('track','PageView');
+    });
+    </script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=425057429272718&ev=PageView&noscript=1"/></noscript>
 
 </body>
 </html>
