@@ -4,25 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aula Secreta</title>
+    <!-- Preconnect (faster than dns-prefetch: DNS + TCP + TLS upfront) -->
     <link rel="preconnect" href="https://scripts.converteai.net" crossorigin>
     <link rel="preconnect" href="https://cdn.converteai.net" crossorigin>
     <link rel="preconnect" href="https://images.converteai.net" crossorigin>
     <link rel="preconnect" href="https://api.vturb.com.br" crossorigin>
+    <link rel="preconnect" href="https://connect.facebook.net">
+    <!-- VTurb fast-load (from VTurb panel) -->
     <script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
     <link rel="preload" href="https://scripts.converteai.net/d8bc8c64-4817-4058-bc66-9776129bc229/players/69dee6979861e5a3457ba11c/v4/player.js" as="script">
     <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
     <link rel="preload" href="https://cdn.converteai.net/d8bc8c64-4817-4058-bc66-9776129bc229/69dee64dd4ac69505e87c475/main.m3u8" as="fetch" crossorigin>
-    <link rel="preconnect" href="https://connect.facebook.net">
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
-        body{background-color:#000;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:16px}
-        .video-container{width:100%;max-width:400px;margin-top:10px;background:#000;contain:layout style paint}
-        @media(max-width:600px){body{padding:4px 0}.video-container{margin-top:0;max-width:100%}}
+        html,body{background:#000;min-height:100vh}
+        body{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:20px}
+        .video-wrapper{width:100%;max-width:400px;padding:0 12px}
+        @media(max-width:500px){
+            body{padding-top:8px}
+            .video-wrapper{max-width:360px;padding:0 8px}
+        }
+        @media(max-width:380px){
+            .video-wrapper{max-width:100%;padding:0 6px}
+        }
     </style>
 </head>
 <body>
 
-    <div class="video-container">
+    <div class="video-wrapper">
         <vturb-smartplayer id="vid-69dee6979861e5a3457ba11c" style="display:block;margin:0 auto;width:100%;max-width:400px"></vturb-smartplayer>
         <script>
             var s=document.createElement("script");
@@ -32,6 +41,7 @@
         </script>
     </div>
 
+    <!-- Meta Pixel (deferred - loads after page render) -->
     <script>
     window.addEventListener('load',function(){
         !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
