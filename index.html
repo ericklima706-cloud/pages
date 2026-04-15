@@ -16,14 +16,14 @@
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         body{background-color:#000;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:16px}
-        .video-container{width:100%;max-width:800px;margin-top:10px;aspect-ratio:16/9;background:#000;contain:layout style paint}
-        @media(max-width:600px){body{padding:8px 4px}.video-container{margin-top:4px}}
+        .video-container{width:100%;max-width:400px;margin-top:10px;background:#000;contain:layout style paint}
+        @media(max-width:600px){body{padding:4px 0}.video-container{margin-top:0;max-width:100%}}
     </style>
 </head>
 <body>
 
     <div class="video-container">
-        <vturb-smartplayer id="vid-69dee6979861e5a3457ba11c" style="display:block;margin:0 auto;width:100%"></vturb-smartplayer>
+        <vturb-smartplayer id="vid-69dee6979861e5a3457ba11c" style="display:block;margin:0 auto;width:100%;max-width:400px"></vturb-smartplayer>
         <script>
             var s=document.createElement("script");
             s.src="https://scripts.converteai.net/d8bc8c64-4817-4058-bc66-9776129bc229/players/69dee6979861e5a3457ba11c/v4/player.js";
