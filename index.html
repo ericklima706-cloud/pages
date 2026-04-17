@@ -2,30 +2,58 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Aula Secreta</title>
-    <!-- Preconnect (faster than dns-prefetch: DNS + TCP + TLS upfront) -->
+    <!-- 1. Preconnect (DNS+TCP+TLS upfront) -->
     <link rel="preconnect" href="https://scripts.converteai.net" crossorigin>
     <link rel="preconnect" href="https://cdn.converteai.net" crossorigin>
     <link rel="preconnect" href="https://images.converteai.net" crossorigin>
     <link rel="preconnect" href="https://api.vturb.com.br" crossorigin>
-    <link rel="preconnect" href="https://connect.facebook.net">
-    <!-- VTurb fast-load (from VTurb panel) -->
+    <!-- 2. VTurb timing -->
     <script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
+    <!-- 3. Preload VTurb scripts -->
     <link rel="preload" href="https://scripts.converteai.net/d8bc8c64-4817-4058-bc66-9776129bc229/players/69dee6979861e5a3457ba11c/v4/player.js" as="script">
     <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
     <link rel="preload" href="https://cdn.converteai.net/d8bc8c64-4817-4058-bc66-9776129bc229/69dee64dd4ac69505e87c475/main.m3u8" as="fetch" crossorigin>
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
-        html,body{background:#000;min-height:100vh}
-        body{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:20px}
-        .video-wrapper{width:100%;max-width:400px;padding:0 12px}
-        @media(max-width:500px){
-            body{padding-top:8px}
-            .video-wrapper{max-width:360px;padding:0 8px}
+        html,body{background:#000;min-height:100vh;overflow-x:hidden}
+        body{display:flex;flex-direction:column;align-items:center;justify-content:flex-start}
+
+        .video-wrapper{
+            width:100%;
+            max-width:400px;
+            margin:12px auto 0;
+            padding:0 8px;
+            position:relative;
         }
-        @media(max-width:380px){
-            .video-wrapper{max-width:100%;padding:0 6px}
+
+        /* VTurb button fixes - garante que botão aparece corretamente */
+        .smartplayer-video-wrap{height:initial!important}
+        #smartplayer#smartplayer#smartplayer .smartplayer-video-wrap .smartplayer-video{height:initial!important}
+        .smartplayer-call-action{
+            text-align:center!important;
+            padding:20px 0!important;
+            position:relative!important;
+            z-index:999!important;
+        }
+        .smartplayer-call-action a.smartplayer-call-action--link{
+            display:inline-block!important;
+            visibility:visible!important;
+        }
+
+        @media(max-width:500px){
+            .video-wrapper{max-width:100%;padding:0 4px;margin-top:6px}
+            .smartplayer-call-action a.smartplayer-call-action--link{
+                font-size:16px!important;
+                width:100%!important;
+                padding:15px 0!important;
+            }
+        }
+        @media(max-width:337px){
+            .smartplayer-call-action a.smartplayer-call-action--link{
+                font-size:14px!important;
+            }
         }
     </style>
 </head>
@@ -41,12 +69,14 @@
         </script>
     </div>
 
-    <!-- Meta Pixel (deferred - loads after page render) -->
+    <!-- Meta Pixel - DEFERRED (loads AFTER page render, never blocks VTurb) -->
     <script>
     window.addEventListener('load',function(){
-        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init','425057429272718');
-        fbq('track','PageView');
+        setTimeout(function(){
+            !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init','425057429272718');
+            fbq('track','PageView');
+        },1500);
     });
     </script>
     <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=425057429272718&ev=PageView&noscript=1"/></noscript>
