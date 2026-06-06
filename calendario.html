@@ -64,6 +64,8 @@
   .papel ul{list-style:none;padding:0 14px 12px 14px;margin:0}
   .papel li{font-size:13px;color:#5a4a47;padding:5px 0 5px 18px;position:relative}
   .papel li::before{content:'';position:absolute;left:0;top:11px;width:7px;height:7px;border-radius:50%;background:var(--rosa)}
+  .papel li.hot{color:#c0392b;font-weight:600}
+  .papel li.hot::before{background:#e0556b}
 
   .info{background:#fff;border-radius:12px;padding:16px;margin:0 0 18px;box-shadow:var(--sombra);font-size:13px;color:#5a4a47}
   .info h4{color:var(--cacau);font-size:15px;margin-bottom:8px}
@@ -147,7 +149,7 @@ const FASES = {
   captacao: {nome:"Captação", cor:"--f-capt", de:"2026-07-06", ate:"2026-08-02",
     resumo:"Abrir inscrições do desafio, subir tráfego, encher e aquecer a lista. Aula gratuita (isca) no ar."},
   desafio:  {nome:"Semana do Desafio", cor:"--f-desa", de:"2026-08-03", ate:"2026-08-07",
-    resumo:"5 dias ao vivo, 19h–22h. A oferta cai na última live (Dia 5) e o carrinho abre."},
+    resumo:"5 dias ao vivo, 19h–22h — Edição Dia dos Pais. A oferta cai na última live (Dia 5, 07/ago à noite) e o carrinho abre no pico emocional."},
   carrinho: {nome:"Carrinho Aberto", cor:"--f-carr", de:"2026-08-08", ate:"2026-08-13",
     resumo:"Carrinho aberto ~5–7 dias. Vendas, quebra de objeção, prova social e recuperação de carrinho."},
   posvenda: {nome:"Pós-venda", cor:"--f-pos", de:"2026-08-14", ate:"2026-08-31",
@@ -218,12 +220,20 @@ const MARCOS = {
   "2026-06-13":{titulo:"✅ Oferta + Pixel + Perfil",nota:"Marco da Fundação: oferta do Bolos 5.0 fechada (preço, bônus, garantia), Meta Pixel instalado e perfil reformado. Sem isso, a captação não sobe."},
   "2026-07-05":{titulo:"🧩 Desafio desenhado",nota:"Análise da pesquisa concluída e desafio de 5 dias pronto no papel (tema, cada dia e a virada pra oferta)."},
   "2026-07-06":{titulo:"📣 Abrem as inscrições do desafio",nota:"Começa a captação pesada: página no ar, tráfego sobe, lista enche."},
-  "2026-08-03":{titulo:"🔥 Desafio · Dia 1",nota:"Primeira live, 19h–22h. Energia lá em cima. Filmaker grava, social lembra, suporte engaja no grupo."},
-  "2026-08-04":{titulo:"🔥 Desafio · Dia 2",nota:"Segunda live. Entregar transformação e gerar prova social (alunas postando)."},
-  "2026-08-05":{titulo:"🔥 Desafio · Dia 3",nota:"Terceira live. Aprofundar o método e começar a plantar a oferta."},
-  "2026-08-06":{titulo:"🔥 Desafio · Dia 4",nota:"Quarta live. Aquecer pra virada: amanhã abre o carrinho. Avisar todo mundo."},
-  "2026-08-07":{titulo:"💥 Dia 5 + ABRE O CARRINHO",nota:"Última live: apresenta a oferta do Bolos 5.0 e ABRE O CARRINHO. Tráfego vira conversão, suporte de prontidão. O grande dia."},
-  "2026-08-13":{titulo:"⏳ FECHA O CARRINHO",nota:"Últimas horas: sequência de fechamento, urgência real, recuperação de carrinho. Carrinho fecha hoje."},
+  "2026-08-03":{titulo:"🔥 Desafio Dia 1 · Edição Dia dos Pais",nota:"Primeira live, 19h–22h. Tema âncora: decorar um bolo pra vender no Dia dos Pais (domingo 09/08). Energia lá em cima.",
+    extra:{copy:["Martelar o gancho: “aprende essa semana e vende no Dia dos Pais, domingo”."]}},
+  "2026-08-04":{titulo:"🔥 Desafio Dia 2 · Edição Dia dos Pais",nota:"Segunda live. Entregar transformação e gerar prova social (alunas postando os bolos)."},
+  "2026-08-05":{titulo:"🔥 Desafio Dia 3 · Edição Dia dos Pais",nota:"Terceira live. Aprofundar o método e começar a plantar a oferta."},
+  "2026-08-06":{titulo:"🔥 Desafio Dia 4 · Edição Dia dos Pais",nota:"Quarta live. Aquecer pra virada: amanhã abre o carrinho. Avisar todo mundo.",
+    extra:{trafego:["Deixar a campanha de conversão pronta pra subir amanhã (criativos + públicos)."]}},
+  "2026-08-07":{titulo:"💥 Dia 5 + ABRE O CARRINHO",nota:"Última live ao vivo, à noite (19h–22h): apresenta a oferta do Bolos 5.0 e ABRE O CARRINHO no pico emocional. O grande dia.",
+    extra:{trafego:["Virar a chave: campanha de conversão no ar assim que o carrinho abrir."],copy:["Disparar e-mail/WhatsApp “carrinho aberto” pra lista logo após a live."],suporte:["De prontidão pra dúvidas de pagamento/checkout — não deixar venda esfriar."]}},
+  "2026-08-09":{titulo:"🎁 Dia dos Pais — dia de PROVA SOCIAL",nota:"Domingo, atenção baixa pra venda (todo mundo em família). NÃO force venda hoje. Use pra prova social: alunas vendendo bolos de Dia dos Pais HOJE.",
+    extra:{social:["Repostar o dia todo: alunas entregando/vendendo bolos pro Dia dos Pais (Stories + Reels)."],copy:["Mensagem leve de prova social, sem pressão de compra (“olha o que elas estão faturando hoje”)."]}},
+  "2026-08-12":{titulo:"⏰ Reta final — véspera do fechamento",nota:"Começa a urgência de verdade. Faltam ~24–36h. É aqui que o caixa começa a encher.",
+    extra:{copy:["Sequência de urgência: “amanhã fecha” + quebra das últimas objeções."],trafego:["Escalar conversão + remarketing pesado de carrinho abandonado."],social:["Stories de contagem regressiva + últimos depoimentos."],suporte:["Atacar a lista de carrinho abandonado, um a um."]}},
+  "2026-08-13":{titulo:"⏳ FECHA O CARRINHO (quinta à noite)",nota:"O dia que mais vende (60–80% das vendas vêm nas últimas horas). Fechamento à noite, na alta de atenção: urgência real, bônus expirando, recuperação final.",
+    extra:{copy:["Sequência de últimas horas: manhã / tarde / 2h antes de fechar."],trafego:["Última leva de remarketing nas horas finais; gastar o orçamento na reta."],social:["Stories de hora em hora na contagem final."],suporte:["Plantão total: destravar qualquer dúvida de compra antes de fechar."]}},
   "2026-08-14":{titulo:"🤝 Começa o Pós-venda",nota:"Onboarding das novas alunas e início da coleta de resultados."},
 };
 
@@ -300,10 +310,14 @@ function abrir(ds){
   else{html+=`<div class="destaque">${f.resumo}</div>`;}
   if(isSegunda(ds)){html+=`<div class="destaque" style="border-left-color:var(--cacau)"><b>📅 Segunda-feira:</b> reunião de alinhamento do time (30 min) — o que foi feito, o que trava, o que vem.</div>`;}
 
+  const extra=(marco&&marco.extra)||{};
   ROLES.forEach(r=>{
-    const tarefas=TAREFAS[fase][r.id]||[];
+    const base=TAREFAS[fase][r.id]||[];
+    const ex=extra[r.id]||[];
     html+=`<div class="papel"><div class="pt"><span class="ic">${r.ic}</span>${r.nome}</div><ul>`+
-      tarefas.map(t=>`<li>${t}</li>`).join("")+`</ul></div>`;
+      base.map(t=>`<li>${t}</li>`).join("")+
+      ex.map(t=>`<li class="hot">🔥 ${t}</li>`).join("")+
+      `</ul></div>`;
   });
   document.getElementById("pCorpo").innerHTML=html;
   document.getElementById("overlay").classList.add("show");
