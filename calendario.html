@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calendário do Lançamento · Chef Beatriz</title>
+<style>
+  :root{
+    --rosa:#d96a8a; --rosa-claro:#f6e4ea; --cacau:#4a2c2a; --cacau-claro:#7a5450;
+    --creme:#fbf6f3; --branco:#ffffff; --texto:#3a2a28; --suave:#8a7570;
+    --sombra:0 6px 24px rgba(74,44,42,.10);
+    /* cores das fases */
+    --f-fund:#c98a5e; --f-reat:#d96a8a; --f-capt:#8e6fb0; --f-desa:#e0556b; --f-carr:#3f9d7c; --f-pos:#5b8dc7;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--creme);color:var(--texto);line-height:1.5;padding-bottom:60px}
+  .topo{background:linear-gradient(135deg,var(--rosa) 0%,var(--cacau) 100%);color:#fff;padding:32px 20px 28px;text-align:center}
+  .topo .selo{font-size:13px;letter-spacing:3px;text-transform:uppercase;opacity:.85}
+  .topo h1{font-size:26px;margin:6px 0 4px;font-weight:700}
+  .topo p{font-size:14px;opacity:.92;max-width:560px;margin:0 auto}
+  .topo .big{margin-top:14px;display:inline-block;background:rgba(255,255,255,.16);padding:8px 16px;border-radius:30px;font-size:13px;font-weight:600}
+
+  .wrap{max-width:980px;margin:0 auto;padding:20px 14px}
+
+  .barra{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:18px 0 8px}
+  .barra button{border:none;cursor:pointer;font-size:13px;font-weight:600;padding:9px 16px;border-radius:30px;background:#fff;color:var(--cacau);box-shadow:var(--sombra);transition:.15s}
+  .barra button:hover{transform:translateY(-1px)}
+  .barra button.on{background:var(--cacau);color:#fff}
+
+  .legenda{display:flex;flex-wrap:wrap;gap:10px 16px;justify-content:center;margin:14px auto 22px;max-width:760px}
+  .legenda span{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--suave)}
+  .dot{width:13px;height:13px;border-radius:4px;display:inline-block}
+
+  .mes{margin-bottom:30px}
+  .mes h2{text-align:center;font-size:18px;color:var(--cacau);margin-bottom:12px;text-transform:capitalize}
+  .grade{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+  .cab{font-size:11px;font-weight:700;text-align:center;color:var(--suave);padding:4px 0;text-transform:uppercase}
+  .dia{aspect-ratio:1/1;border-radius:12px;background:#fff;box-shadow:0 2px 8px rgba(74,44,42,.06);cursor:pointer;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:.15s;border:2px solid transparent;overflow:hidden}
+  .dia:hover{transform:translateY(-2px);box-shadow:var(--sombra)}
+  .dia.vazio{background:transparent;box-shadow:none;cursor:default}
+  .dia .num{font-size:15px;font-weight:700;z-index:2}
+  .dia .faixa{position:absolute;bottom:0;left:0;right:0;height:7px}
+  .dia.hoje{border-color:var(--cacau)}
+  .dia.hoje::after{content:'HOJE';position:absolute;top:3px;font-size:7px;font-weight:800;color:var(--cacau);letter-spacing:.5px}
+  .dia .star{position:absolute;top:3px;right:4px;font-size:10px;z-index:2}
+  .dia.fim{opacity:.78}
+
+  /* painel lateral / modal */
+  .overlay{position:fixed;inset:0;background:rgba(58,42,40,.55);display:none;z-index:50;backdrop-filter:blur(2px)}
+  .overlay.show{display:block}
+  .painel{position:fixed;top:0;right:0;height:100%;width:min(480px,92vw);background:var(--creme);z-index:51;box-shadow:-8px 0 40px rgba(0,0,0,.25);transform:translateX(100%);transition:transform .25s ease;overflow-y:auto}
+  .painel.show{transform:translateX(0)}
+  .painel .ph{position:sticky;top:0;padding:20px;color:#fff}
+  .painel .ph .data{font-size:13px;opacity:.9;text-transform:capitalize}
+  .painel .ph h3{font-size:21px;margin-top:2px}
+  .painel .ph .fase{display:inline-block;margin-top:8px;background:rgba(255,255,255,.2);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600}
+  .painel .ph .fechar{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.25);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;line-height:1}
+  .painel .corpo{padding:16px 18px 40px}
+  .destaque{background:#fff;border-left:4px solid var(--rosa);border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:14px;box-shadow:var(--sombra)}
+  .destaque b{color:var(--cacau)}
+  .papel{background:#fff;border-radius:12px;margin-bottom:10px;box-shadow:0 2px 8px rgba(74,44,42,.06);overflow:hidden}
+  .papel .pt{display:flex;align-items:center;gap:8px;padding:12px 14px;font-weight:700;font-size:14px;color:var(--cacau)}
+  .papel .pt .ic{font-size:18px}
+  .papel ul{list-style:none;padding:0 14px 12px 14px;margin:0}
+  .papel li{font-size:13px;color:#5a4a47;padding:5px 0 5px 18px;position:relative}
+  .papel li::before{content:'';position:absolute;left:0;top:11px;width:7px;height:7px;border-radius:50%;background:var(--rosa)}
+
+  .info{background:#fff;border-radius:12px;padding:16px;margin:0 0 18px;box-shadow:var(--sombra);font-size:13px;color:#5a4a47}
+  .info h4{color:var(--cacau);font-size:15px;margin-bottom:8px}
+  .info p{margin-bottom:8px}
+  .info .r{display:flex;gap:8px;margin-bottom:7px}
+  .info .r .e{font-size:16px}
+  .rodape{text-align:center;font-size:12px;color:var(--suave);margin-top:24px;padding:0 16px}
+  @media(max-width:560px){
+    .dia .num{font-size:13px}
+    .topo h1{font-size:22px}
+  }
+</style>
+</head>
+<body>
+
+<div class="topo">
+  <div class="selo">Chef Beatriz · Bolos 5.0</div>
+  <h1>Calendário do Lançamento</h1>
+  <p>A fonte única da verdade. Clique em qualquer dia e veja o que cada papel precisa fazer — sem disse me disse.</p>
+  <div class="big">🎯 Carrinho abre <b>07/ago</b> · fecha <b>13/ago</b></div>
+</div>
+
+<div class="wrap">
+
+  <div class="barra">
+    <button data-go="info" id="btnInfo">👥 O que cada papel faz</button>
+  </div>
+
+  <div class="legenda" id="legenda"></div>
+
+  <div id="infoBox" class="info" style="display:none"></div>
+
+  <div id="calendario"></div>
+
+  <div class="rodape">
+    Reunião de alinhamento do time: <b>toda segunda, 30 min</b>. · Fins de semana: ritmo leve / gravação em bloco.<br>
+    Feito para o time da Chef Beatriz 💛🍰
+  </div>
+</div>
+
+<div class="overlay" id="overlay"></div>
+<aside class="painel" id="painel">
+  <div class="ph" id="painelHead">
+    <button class="fechar" id="fechar">×</button>
+    <div class="data" id="pData"></div>
+    <h3 id="pTitulo"></h3>
+    <div class="fase" id="pFase"></div>
+  </div>
+  <div class="corpo" id="pCorpo"></div>
+</aside>
+
+<script>
+/* ===================== CONFIG ===================== */
+const HOJE = "2026-06-06";
+
+const ROLES = [
+  {id:"expert",  nome:"Expert (Beatriz)", ic:"👑"},
+  {id:"filmaker",nome:"Filmaker",         ic:"🎬"},
+  {id:"designer",nome:"Designer",         ic:"🎨"},
+  {id:"copy",    nome:"Copy",             ic:"✍️"},
+  {id:"social",  nome:"Social Media",     ic:"📱"},
+  {id:"trafego", nome:"Tráfego",          ic:"📊"},
+  {id:"suporte", nome:"Suporte/Atendimento",ic:"💬"},
+];
+
+const ROLE_DESC = {
+  expert:"O rosto e a autoridade. Aparece, ensina, faz as lives e apresenta a oferta. Aprova posicionamento e decisões finais.",
+  filmaker:"Grava e edita em bloco. Garante luz, áudio e legenda dinâmica. Captura bastidores e depoimentos.",
+  designer:"Criativos, páginas, artes de anúncio, banners de carrinho, selos de bônus e capas. Sem ele, anúncio e página travam.",
+  copy:"Escreve o que vende: bio, ganchos, legendas, páginas, e-mails/WhatsApp, roteiro do desafio e da oferta.",
+  social:"Posta e agenda Reels/Stories nos horários certos, gerencia caixinha, prova social e mede engajamento.",
+  trafego:"Pixel, públicos, campanhas, CPL/CPA, remarketing e recuperação de carrinho. Cuida do dinheiro de anúncio.",
+  suporte:"Atende DMs/WhatsApp, tira dúvidas que travam a compra, recupera carrinho e faz o onboarding das alunas.",
+};
+
+const FASES = {
+  fundacao: {nome:"Fundação", cor:"--f-fund", de:"2026-06-06", ate:"2026-06-13",
+    resumo:"Arrumar a casa: oferta definida, pixel instalado, perfil reformado, pesquisa rodando."},
+  reativacao:{nome:"Reativação", cor:"--f-reat", de:"2026-06-14", ate:"2026-07-05",
+    resumo:"Máquina de conteúdo girando, reaquecer os 126 mil, analisar a pesquisa e desenhar o desafio."},
+  captacao: {nome:"Captação", cor:"--f-capt", de:"2026-07-06", ate:"2026-08-02",
+    resumo:"Abrir inscrições do desafio, subir tráfego, encher e aquecer a lista. Aula gratuita (isca) no ar."},
+  desafio:  {nome:"Semana do Desafio", cor:"--f-desa", de:"2026-08-03", ate:"2026-08-07",
+    resumo:"5 dias ao vivo, 19h–22h. A oferta cai na última live (Dia 5) e o carrinho abre."},
+  carrinho: {nome:"Carrinho Aberto", cor:"--f-carr", de:"2026-08-08", ate:"2026-08-13",
+    resumo:"Carrinho aberto ~5–7 dias. Vendas, quebra de objeção, prova social e recuperação de carrinho."},
+  posvenda: {nome:"Pós-venda", cor:"--f-pos", de:"2026-08-14", ate:"2026-08-31",
+    resumo:"Onboarding das novas alunas e coleta dos resultados delas (vira a prova do próximo lançamento)."},
+};
+
+/* tarefas padrão por fase e por papel */
+const TAREFAS = {
+  fundacao:{
+    expert:["Gravar o Reel-manifesto de volta (fixar no topo do perfil).","Validar posicionamento: “não é dom, é método” + confiança.","Fechar a estrutura da oferta do Bolos 5.0 (preço, bônus, garantia, upsell mentoria).","Aprovar nova bio e a ordem dos destaques."],
+    filmaker:["Setup de bancada, luz e áudio padrão.","Gravar o Reel-manifesto.","Gravar o 1º bloco dos 49 Reels (começar pela técnica)."],
+    designer:["Nova foto de perfil + capas dos destaques.","Identidade visual do lançamento (paleta rosa/cacau).","Template de Reels e de legendas."],
+    copy:["Escrever a bio (133 caracteres).","Roteiro do manifesto.","Revisar os 49 ganchos.","Rascunhar a headline da oferta."],
+    social:["Atualizar a bio e reorganizar os destaques na ordem certa.","Fixar o manifesto.","Agendar a 1ª leva de Reels."],
+    trafego:["Instalar/validar o Meta Pixel.","Configurar eventos (PageView, Lead, Purchase).","Criar públicos: seguidores, alunas e lookalike."],
+    suporte:["Mapear FAQ e respostas-padrão.","Conferir acesso das alunas atuais.","Organizar o canal de atendimento no WhatsApp."],
+  },
+  reativacao:{
+    expert:["Gravar os 49 Reels da semana em bloco.","Aparecer nos Stories todo dia (3–5).","Ler as respostas da pesquisa VIP comigo.","Desenhar o desafio de 5 dias com base nos dados."],
+    filmaker:["Gravar em bloco por slot (técnica, negócio, conexão).","Editar com legenda dinâmica (70% assistem sem som).","Entregar o lote semanal + bastidores."],
+    designer:["Capas dos Reels e artes de Stories.","Criar a identidade do desafio (nome, logo, cores).","Iniciar criativos de teaser."],
+    copy:["Legendas e CTAs dos 49 Reels.","Nome, promessa e roteiro do desafio.","Copy dos teasers da aula gratuita."],
+    social:["Postar/agendar 7 Reels/dia no horário (19h–22h).","Stories diários + caixinha de perguntas.","Medir alcance/salvamento (aqui não se mede venda)."],
+    trafego:["Campanha de reativação/alcance com criativos de engajamento.","Aquecer o pixel.","Preparar a campanha de captação."],
+    suporte:["Responder DMs e comentários.","Coletar dúvidas frequentes (viram conteúdo).","Acompanhar as respostas da pesquisa."],
+  },
+  captacao:{
+    expert:["Manter conteúdo diário.","Gravar a aula gratuita (isca).","Convidar pro desafio nos Reels/Stories.","Fazer lives de aquecimento."],
+    filmaker:["Gravar a aula isca e os VTs de convite.","Manter o lote de Reels da semana."],
+    designer:["Landing page de inscrição do desafio.","Criativos de anúncio (estático + vídeo).","Templates de e-mail/WhatsApp."],
+    copy:["Página de captura do desafio.","Sequência de aquecimento (e-mail/WhatsApp).","Anúncios (headline + texto) e roteiro da isca."],
+    social:["Divulgar a inscrição do desafio.","Conteúdo de contagem regressiva e reforço da isca.","Manter a cadência diária."],
+    trafego:["Subir campanha de captação de leads (tráfego pra página).","Otimizar CPL e escalar o que funciona.","Remarketing dos engajados."],
+    suporte:["Confirmar inscrições e tirar dúvidas.","Organizar o grupo (WhatsApp/Telegram) do desafio.","Lembrar os inscritos."],
+  },
+  desafio:{
+    expert:["Fazer as lives dos 5 dias (19h–22h).","Entregar transformação ao vivo.","No Dia 5 (07/ago): apresentar a oferta e abrir o carrinho."],
+    filmaker:["Operar/gravar as lives.","Gerar cortes diários pra Stories/Reels.","Capturar depoimentos ao vivo."],
+    designer:["Artes da oferta e banners de “carrinho aberto”.","Selos de bônus e garantia.","Cortes legendados."],
+    copy:["Roteiro de cada live.","Copy da oferta (Dia 5).","Mensagens de lembrete de live e abertura de carrinho."],
+    social:["Lembretes de live todo dia.","Reposts de alunas fazendo as receitas (prova social).","Contagem pro Dia 5."],
+    trafego:["Remarketing dos inscritos (lembrete de live).","A partir do Dia 5: campanha de conversão pra página de vendas."],
+    suporte:["Lembrar das lives e engajar no grupo.","Responder dúvidas técnicas.","Preparar pra enxurrada de vendas do Dia 5."],
+  },
+  carrinho:{
+    expert:["Lives/Stories diários de vendas.","Quebra de objeções e depoimentos.","Avisos de fechamento do carrinho."],
+    filmaker:["Cortes de venda e depoimentos em vídeo.","VTs de urgência/escassez."],
+    designer:["Banners de contagem regressiva.","Artes de “bônus expirando”.","Criativos de fechamento."],
+    copy:["E-mails/WhatsApp diários de vendas.","Quebra de objeção.","Sequência de fechamento (últimas horas)."],
+    social:["Stories de vendas todo dia + prova social.","Urgência e contagem pro fechamento."],
+    trafego:["Campanha de conversão no full.","Remarketing de carrinho abandonado.","Escalar nos últimos dias."],
+    suporte:["Atendimento de pré-venda (dúvidas que travam a compra).","Recuperar carrinho abandonado.","Suporte de pagamento."],
+  },
+  posvenda:{
+    expert:["Boas-vindas às novas alunas + live de onboarding.","Pedir comprometimento.","Começar a coletar resultados."],
+    filmaker:["Gravar conteúdo de onboarding.","Capturar as primeiras vitórias das alunas."],
+    designer:["Materiais de boas-vindas e certificados.","Arte do formulário de resultados."],
+    copy:["Sequência de onboarding e e-mail de boas-vindas.","Formulário de coleta de resultados (vira prova do próximo)."],
+    social:["Voltar à cadência de autoridade/conexão.","Celebrar novas alunas e manter a base aquecida."],
+    trafego:["Desligar campanhas de carrinho.","Analisar ROI/CPA do lançamento.","Preparar o perpétuo."],
+    suporte:["Onboarding: garantir acesso à plataforma.","Responder dúvidas.","Rodar a pesquisa de resultados."],
+  },
+};
+
+/* dias-marco: título, nota especial e (opcional) tarefas extras */
+const MARCOS = {
+  "2026-06-06":{titulo:"🚀 Kick-off do Lançamento",nota:"Reunião de início com o time. Alinhar o plano inteiro, definir responsáveis e travar o posicionamento “não é dom, é método”."},
+  "2026-06-13":{titulo:"✅ Oferta + Pixel + Perfil",nota:"Marco da Fundação: oferta do Bolos 5.0 fechada (preço, bônus, garantia), Meta Pixel instalado e perfil reformado. Sem isso, a captação não sobe."},
+  "2026-07-05":{titulo:"🧩 Desafio desenhado",nota:"Análise da pesquisa concluída e desafio de 5 dias pronto no papel (tema, cada dia e a virada pra oferta)."},
+  "2026-07-06":{titulo:"📣 Abrem as inscrições do desafio",nota:"Começa a captação pesada: página no ar, tráfego sobe, lista enche."},
+  "2026-08-03":{titulo:"🔥 Desafio · Dia 1",nota:"Primeira live, 19h–22h. Energia lá em cima. Filmaker grava, social lembra, suporte engaja no grupo."},
+  "2026-08-04":{titulo:"🔥 Desafio · Dia 2",nota:"Segunda live. Entregar transformação e gerar prova social (alunas postando)."},
+  "2026-08-05":{titulo:"🔥 Desafio · Dia 3",nota:"Terceira live. Aprofundar o método e começar a plantar a oferta."},
+  "2026-08-06":{titulo:"🔥 Desafio · Dia 4",nota:"Quarta live. Aquecer pra virada: amanhã abre o carrinho. Avisar todo mundo."},
+  "2026-08-07":{titulo:"💥 Dia 5 + ABRE O CARRINHO",nota:"Última live: apresenta a oferta do Bolos 5.0 e ABRE O CARRINHO. Tráfego vira conversão, suporte de prontidão. O grande dia."},
+  "2026-08-13":{titulo:"⏳ FECHA O CARRINHO",nota:"Últimas horas: sequência de fechamento, urgência real, recuperação de carrinho. Carrinho fecha hoje."},
+  "2026-08-14":{titulo:"🤝 Começa o Pós-venda",nota:"Onboarding das novas alunas e início da coleta de resultados."},
+};
+
+/* segundas: reunião de alinhamento */
+function isSegunda(d){return new Date(d+"T12:00").getDay()===1;}
+
+/* ===================== RENDER ===================== */
+const MESES=["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+const DIASEM=["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+
+function faseDe(dateStr){
+  for(const k in FASES){const f=FASES[k];if(dateStr>=f.de&&dateStr<=f.ate)return k;}
+  return null;
+}
+function pad(n){return String(n).padStart(2,"0");}
+function corVar(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+
+function montarLegenda(){
+  const el=document.getElementById("legenda");
+  el.innerHTML=Object.values(FASES).map(f=>
+    `<span><i class="dot" style="background:${corVar('--'+f.cor.replace('--',''))}"></i>${f.nome}</span>`
+  ).join("")+`<span>⭐ dia-marco</span>`;
+}
+
+function montarCalendario(){
+  const cont=document.getElementById("calendario");
+  cont.innerHTML="";
+  [[2026,5],[2026,6],[2026,7]].forEach(([ano,mes])=>{
+    const div=document.createElement("div");div.className="mes";
+    div.innerHTML=`<h2>${MESES[mes]} de ${ano}</h2>`;
+    const grade=document.createElement("div");grade.className="grade";
+    DIASEM.forEach(d=>{const c=document.createElement("div");c.className="cab";c.textContent=d;grade.appendChild(c);});
+    const primeiro=new Date(ano,mes,1).getDay();
+    const ndias=new Date(ano,mes+1,0).getDate();
+    for(let i=0;i<primeiro;i++){const v=document.createElement("div");v.className="dia vazio";grade.appendChild(v);}
+    for(let dia=1;dia<=ndias;dia++){
+      const ds=`${ano}-${pad(mes+1)}-${pad(dia)}`;
+      const fase=faseDe(ds);
+      const cel=document.createElement("div");
+      cel.className="dia";
+      const dow=new Date(ano,mes,dia).getDay();
+      if(dow===0||dow===6)cel.classList.add("fim");
+      if(fase){
+        const cor=corVar('--'+FASES[fase].cor.replace('--',''));
+        cel.style.background=cor+"14";
+        cel.innerHTML=`<span class="num" style="color:${cor}">${dia}</span><span class="faixa" style="background:${cor}"></span>`;
+        if(MARCOS[ds])cel.innerHTML=`<span class="star">⭐</span>`+cel.innerHTML;
+        cel.onclick=()=>abrir(ds);
+      }else{
+        cel.classList.add("vazio");
+        cel.innerHTML=`<span class="num" style="color:#cbbbb6">${dia}</span>`;
+      }
+      if(ds===HOJE)cel.classList.add("hoje");
+      grade.appendChild(cel);
+    }
+    div.appendChild(grade);cont.appendChild(div);
+  });
+}
+
+function abrir(ds){
+  const fase=faseDe(ds);if(!fase)return;
+  const f=FASES[fase];
+  const cor=corVar('--'+f.cor.replace('--',''));
+  const dt=new Date(ds+"T12:00");
+  const diaSemana=["domingo","segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"][dt.getDay()];
+  document.getElementById("painelHead").style.background=`linear-gradient(135deg,${cor},${cor}cc)`;
+  document.getElementById("pData").textContent=`${diaSemana}, ${dt.getDate()} de ${MESES[dt.getMonth()]}`;
+  const marco=MARCOS[ds];
+  document.getElementById("pTitulo").textContent=marco?marco.titulo:f.nome;
+  document.getElementById("pFase").textContent="Fase: "+f.nome;
+
+  let html="";
+  if(marco){html+=`<div class="destaque"><b>Dia-marco.</b> ${marco.nota}</div>`;}
+  else{html+=`<div class="destaque">${f.resumo}</div>`;}
+  if(isSegunda(ds)){html+=`<div class="destaque" style="border-left-color:var(--cacau)"><b>📅 Segunda-feira:</b> reunião de alinhamento do time (30 min) — o que foi feito, o que trava, o que vem.</div>`;}
+
+  ROLES.forEach(r=>{
+    const tarefas=TAREFAS[fase][r.id]||[];
+    html+=`<div class="papel"><div class="pt"><span class="ic">${r.ic}</span>${r.nome}</div><ul>`+
+      tarefas.map(t=>`<li>${t}</li>`).join("")+`</ul></div>`;
+  });
+  document.getElementById("pCorpo").innerHTML=html;
+  document.getElementById("overlay").classList.add("show");
+  document.getElementById("painel").classList.add("show");
+}
+function fechar(){
+  document.getElementById("overlay").classList.remove("show");
+  document.getElementById("painel").classList.remove("show");
+}
+document.getElementById("fechar").onclick=fechar;
+document.getElementById("overlay").onclick=fechar;
+
+function toggleInfo(){
+  const box=document.getElementById("infoBox");
+  const btn=document.getElementById("btnInfo");
+  if(box.style.display==="none"){
+    box.style.display="block";btn.classList.add("on");
+    box.innerHTML=`<h4>👥 O que cada papel faz</h4>`+
+      ROLES.map(r=>`<div class="r"><span class="e">${r.ic}</span><div><b>${r.nome}.</b> ${ROLE_DESC[r.id]}</div></div>`).join("");
+  }else{box.style.display="none";btn.classList.remove("on");}
+}
+document.getElementById("btnInfo").onclick=toggleInfo;
+
+montarLegenda();
+montarCalendario();
+</script>
+</body>
+</html>
