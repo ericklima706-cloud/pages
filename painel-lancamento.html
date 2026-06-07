@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel de Lançamento — Bolos 5.0</title>
+<style>
+  :root{--rosa:#d96a8a;--cacau:#4a2c2a;--creme:#fbf6f3;--suave:#8a7570;--verde:#3f9d7c;--vinho:#b03a52;--azul:#5b8dc7;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#efe7e2;color:#3a2a28;padding:16px;line-height:1.5}
+  .wrap{max-width:760px;margin:0 auto}
+  .topo{background:linear-gradient(135deg,var(--rosa),var(--cacau));color:#fff;border-radius:16px 16px 0 0;padding:22px 24px}
+  .topo .k{font-size:11px;letter-spacing:3px;text-transform:uppercase;opacity:.85}
+  .topo h1{font-size:22px;margin-top:3px}
+  .tabs{display:flex;background:#fff;border-bottom:1px solid #eee}
+  .tabs button{flex:1;border:none;background:#fff;padding:14px;font-size:14px;font-weight:700;color:var(--suave);cursor:pointer;border-bottom:3px solid transparent}
+  .tabs button.on{color:var(--cacau);border-bottom-color:var(--rosa)}
+  .panel{background:#fff;border-radius:0 0 16px 16px;padding:22px 24px 30px;box-shadow:0 8px 30px rgba(74,44,42,.12)}
+  .panel:not(.on){display:none}
+  h2{font-size:15px;color:var(--cacau);margin:4px 0 14px}
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:13px;font-weight:600;color:#5a4a47;margin-bottom:5px}
+  .field .row{display:flex;align-items:center;gap:10px}
+  input[type=range]{flex:1;accent-color:var(--rosa)}
+  input[type=number],input[type=date]{width:100%;padding:9px 11px;border:1.5px solid #e6d8d2;border-radius:9px;font-size:15px;color:var(--cacau);font-weight:600}
+  .val{min-width:96px;text-align:right;font-weight:800;color:var(--vinho);font-size:15px}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+  .card{background:var(--creme);border-radius:12px;padding:13px 15px}
+  .card .lbl{font-size:11px;color:var(--suave);text-transform:uppercase;letter-spacing:.5px}
+  .card .big{font-size:22px;font-weight:800;color:var(--cacau);margin-top:2px}
+  .card.dest{background:#fdeef2}
+  .card.dest .big{color:var(--vinho)}
+  .card.full{grid-column:1/-1}
+  .hint{font-size:12px;color:var(--suave);margin-top:14px;line-height:1.5}
+  /* placar */
+  .bar{height:26px;background:#f0e6e1;border-radius:20px;overflow:hidden;margin:6px 0 4px}
+  .bar > div{height:100%;background:linear-gradient(90deg,var(--rosa),var(--vinho));width:0%;transition:width .4s;border-radius:20px}
+  .status{padding:11px 14px;border-radius:10px;font-size:14px;font-weight:600;margin:12px 0}
+  .st-ok{background:#e7f3ee;color:#2e7d5b}
+  .st-bad{background:#fdeaec;color:#b03a52}
+  .st-wait{background:#eef3fb;color:#3a6ea5}
+  .logform{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap}
+  .logform input{flex:1;min-width:110px}
+  .logform button{background:var(--cacau);color:#fff;border:none;border-radius:9px;padding:0 18px;font-weight:700;cursor:pointer}
+  table{width:100%;border-collapse:collapse;margin-top:8px;font-size:14px}
+  th,td{padding:8px 6px;text-align:left;border-bottom:1px solid #f0e6e1}
+  th{color:var(--suave);font-size:11px;text-transform:uppercase}
+  td.n{text-align:right;font-weight:700;color:var(--cacau)}
+  .del{color:#c0392b;cursor:pointer;font-weight:700;border:none;background:none;font-size:15px}
+  .small{font-size:12px;color:var(--suave)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topo">
+    <div class="k">Chef Beatriz · Desafio Bolos 5.0</div>
+    <h1>Painel de Lançamento</h1>
+  </div>
+  <div class="tabs">
+    <button id="tb1" class="on" onclick="tab(1)">🧮 Calculadora</button>
+    <button id="tb2" onclick="tab(2)">🎯 Placar de Captação</button>
+  </div>
+
+  <!-- CALCULADORA -->
+  <div class="panel on" id="p1">
+    <h2>Mexa nos números e veja o resultado na hora</h2>
+
+    <div class="field">
+      <label>🎯 Meta de faturamento (só front)</label>
+      <div class="row"><input type="range" id="meta" min="20000" max="300000" step="5000" value="100000"><span class="val" id="meta_v"></span></div>
+    </div>
+    <div class="field">
+      <label>🎂 Ticket do front (Bolos 5.0)</label>
+      <div class="row"><input type="range" id="ticket" min="97" max="497" step="10" value="197"><span class="val" id="ticket_v"></span></div>
+    </div>
+    <div class="field">
+      <label>📈 Conversão do desafio (% dos leads que compram)</label>
+      <div class="row"><input type="range" id="conv" min="1" max="12" step="0.5" value="5"><span class="val" id="conv_v"></span></div>
+    </div>
+    <div class="field">
+      <label>💸 CPL — custo por lead</label>
+      <div class="row"><input type="range" id="cpl" min="1" max="15" step="0.5" value="5"><span class="val" id="cpl_v"></span></div>
+    </div>
+    <div class="field">
+      <label>🌱 Leads orgânicos esperados (da base + lives)</label>
+      <div class="row"><input type="range" id="org" min="0" max="8000" step="500" value="3500"><span class="val" id="org_v"></span></div>
+    </div>
+    <div class="field">
+      <label>📅 Dias de captação</label>
+      <div class="row"><input type="range" id="dias" min="7" max="45" step="1" value="28"><span class="val" id="dias_v"></span></div>
+    </div>
+
+    <div class="cards">
+      <div class="card dest"><div class="lbl">Vendas necessárias</div><div class="big" id="o_vendas"></div></div>
+      <div class="card dest"><div class="lbl">Inscritos necessários</div><div class="big" id="o_leads"></div></div>
+      <div class="card"><div class="lbl">Leads por dia</div><div class="big" id="o_leadsdia"></div></div>
+      <div class="card"><div class="lbl">Leads pagos</div><div class="big" id="o_pagos"></div></div>
+      <div class="card"><div class="lbl">Investimento total</div><div class="big" id="o_invest"></div></div>
+      <div class="card"><div class="lbl">Investimento / dia</div><div class="big" id="o_investdia"></div></div>
+      <div class="card full"><div class="lbl">ROAS (retorno sobre o investimento)</div><div class="big" id="o_roas"></div></div>
+    </div>
+    <p class="hint">💡 ROAS abaixo de 2x = apertado. Entre 3–5x = saudável. Lembre: aqui é <b>só o front</b> — os upsells (mentorias) entram como lucro extra por cima.</p>
+    <p class="hint"><button onclick="enviarPraPlacar()" style="background:var(--rosa);color:#fff;border:none;padding:10px 16px;border-radius:9px;font-weight:700;cursor:pointer">➡️ Usar “inscritos necessários” como meta do Placar</button></p>
+  </div>
+
+  <!-- PLACAR -->
+  <div class="panel" id="p2">
+    <h2>Acompanhe a captação dia a dia</h2>
+    <div class="field">
+      <label>Meta de inscritos (total)</label>
+      <input type="number" id="metaLeads" value="10200" oninput="renderPlacar()">
+    </div>
+    <div class="row" style="display:flex;gap:10px">
+      <div class="field" style="flex:1"><label>Início</label><input type="date" id="ini" value="2026-07-06" oninput="renderPlacar()"></div>
+      <div class="field" style="flex:1"><label>Fim</label><input type="date" id="fim" value="2026-08-02" oninput="renderPlacar()"></div>
+    </div>
+
+    <div class="bar"><div id="prog"></div></div>
+    <div class="small" id="progtxt"></div>
+    <div class="status" id="status"></div>
+
+    <div class="cards">
+      <div class="card dest"><div class="lbl">Captado</div><div class="big" id="s_cap"></div></div>
+      <div class="card"><div class="lbl">Faltam</div><div class="big" id="s_falta"></div></div>
+      <div class="card"><div class="lbl">Meta esperada até hoje</div><div class="big" id="s_esp"></div></div>
+      <div class="card"><div class="lbl">Precisa/dia (restante)</div><div class="big" id="s_dia"></div></div>
+    </div>
+
+    <h2 style="margin-top:24px">Registrar leads do dia</h2>
+    <div class="logform">
+      <input type="date" id="logData">
+      <input type="number" id="logQtd" placeholder="quantos leads">
+      <button onclick="addLog()">Adicionar</button>
+    </div>
+    <table id="logTable"><thead><tr><th>Dia</th><th style="text-align:right">Leads</th><th></th></tr></thead><tbody></tbody></table>
+    <p class="hint">Os registros ficam salvos neste navegador (localStorage). Atualize todo dia pra ver o placar mexer.</p>
+  </div>
+</div>
+
+<script>
+/* ---------- CALCULADORA ---------- */
+const $=id=>document.getElementById(id);
+const brl=n=>'R$'+Math.round(n).toLocaleString('pt-BR');
+const num=n=>Math.round(n).toLocaleString('pt-BR');
+function calc(){
+  const meta=+$('meta').value, ticket=+$('ticket').value, conv=+$('conv').value/100,
+        cpl=+$('cpl').value, org=+$('org').value, dias=+$('dias').value;
+  $('meta_v').textContent=brl(meta); $('ticket_v').textContent=brl(ticket);
+  $('conv_v').textContent=(conv*100).toFixed(1)+'%'; $('cpl_v').textContent=brl(cpl);
+  $('org_v').textContent=num(org); $('dias_v').textContent=dias+' dias';
+  const vendas=Math.ceil(meta/ticket);
+  const leads=Math.ceil(vendas/conv);
+  const leadsdia=Math.ceil(leads/dias);
+  const pagos=Math.max(0,leads-org);
+  const invest=pagos*cpl;
+  const roas=invest>0?(meta/invest):0;
+  $('o_vendas').textContent=num(vendas);
+  $('o_leads').textContent=num(leads);
+  $('o_leadsdia').textContent=num(leadsdia);
+  $('o_pagos').textContent=num(pagos);
+  $('o_invest').textContent=brl(invest);
+  $('o_investdia').textContent=brl(invest/dias);
+  $('o_roas').textContent=roas.toFixed(1)+'x';
+  window._leadsNec=leads;
+}
+['meta','ticket','conv','cpl','org','dias'].forEach(id=>$(id).addEventListener('input',calc));
+function enviarPraPlacar(){ $('metaLeads').value=window._leadsNec||10200; tab(2); renderPlacar(); }
+
+/* ---------- TABS ---------- */
+function tab(n){
+  $('p1').classList.toggle('on',n===1); $('p2').classList.toggle('on',n===2);
+  $('tb1').classList.toggle('on',n===1); $('tb2').classList.toggle('on',n===2);
+  if(n===2) renderPlacar();
+}
+
+/* ---------- PLACAR ---------- */
+const KEY='placar_bolos5';
+function getLog(){ try{return JSON.parse(localStorage.getItem(KEY))||[]}catch(e){return[]} }
+function setLog(l){ localStorage.setItem(KEY,JSON.stringify(l)); }
+function addLog(){
+  const d=$('logData').value, q=+$('logQtd').value;
+  if(!d||!q){alert('Preencha a data e a quantidade.');return;}
+  const log=getLog(); const ex=log.find(x=>x.d===d);
+  if(ex){ex.q=q;} else {log.push({d,q});}
+  log.sort((a,b)=>a.d<b.d?-1:1); setLog(log);
+  $('logQtd').value=''; renderPlacar();
+}
+function delLog(d){ setLog(getLog().filter(x=>x.d!==d)); renderPlacar(); }
+function diasEntre(a,b){ return Math.round((new Date(b)-new Date(a))/86400000); }
+function renderPlacar(){
+  const meta=+$('metaLeads').value||0, ini=$('ini').value, fim=$('fim').value;
+  const log=getLog();
+  const cap=log.reduce((s,x)=>s+x.q,0);
+  // tabela
+  const tb=$('logTable').querySelector('tbody'); tb.innerHTML='';
+  let acc=0;
+  log.forEach(x=>{ acc+=x.q;
+    const tr=document.createElement('tr');
+    const dia=new Date(x.d+'T12:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
+    tr.innerHTML=`<td>${dia} <span class="small">(acum: ${num(acc)})</span></td><td class="n">${num(x.q)}</td><td><button class="del" onclick="delLog('${x.d}')">×</button></td>`;
+    tb.appendChild(tr);
+  });
+  // progresso
+  const pct=meta>0?Math.min(100,cap/meta*100):0;
+  $('prog').style.width=pct+'%';
+  $('progtxt').textContent=`${num(cap)} de ${num(meta)} inscritos (${pct.toFixed(1)}%)`;
+  // pace
+  const hoje=new Date(); const today=hoje.toISOString().slice(0,10);
+  const totalDias=Math.max(1,diasEntre(ini,fim)+1);
+  let status=$('status'); status.className='status';
+  let espHoje=0, diaRest=0, faltam=Math.max(0,meta-cap);
+  if(today<ini){
+    status.classList.add('st-wait');
+    status.textContent='⏳ A captação ainda não começou. Começa em '+new Date(ini+'T12:00').toLocaleDateString('pt-BR')+'.';
+    diaRest=Math.ceil(meta/totalDias);
+  } else if(today>fim){
+    status.classList.add(cap>=meta?'st-ok':'st-bad');
+    status.textContent=cap>=meta?'🏆 Captação encerrada — meta batida!':'🏁 Captação encerrada. Fechou em '+num(cap)+' de '+num(meta)+'.';
+  } else {
+    const passados=diasEntre(ini,today)+1;
+    const restantes=Math.max(1,totalDias-passados);
+    espHoje=Math.round(meta*passados/totalDias);
+    diaRest=Math.ceil(faltam/restantes);
+    if(cap>=espHoje){ status.classList.add('st-ok'); status.textContent=`🟢 No ritmo! Você está ${num(cap-espHoje)} leads ACIMA da curva. Faltam ${restantes} dias.`; }
+    else { status.classList.add('st-bad'); status.textContent=`🔴 Atenção: ${num(espHoje-cap)} leads ABAIXO da curva. Reforce verba/lives. Faltam ${restantes} dias.`; }
+  }
+  $('s_cap').textContent=num(cap);
+  $('s_falta').textContent=num(faltam);
+  $('s_esp').textContent=today<ini?'—':num(espHoje);
+  $('s_dia').textContent=num(diaRest);
+}
+// init
+calc();
+$('logData').value=new Date().toISOString().slice(0,10);
+</script>
+</body>
+</html>
