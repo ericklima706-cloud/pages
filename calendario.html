@@ -256,6 +256,65 @@ const LIVES={
   "2026-08-02":"Esquenta do Desafio: COMEÇA AMANHÃ! Checklist do material",
 };
 
+/* conteúdo âncora do dia (tema principal do dia, surfando tendências reais + régua do funil) */
+const CONTEUDO={
+  "2026-06-14":"REABERTURA — grave e FIXE o Reel-manifesto “sumi, mas voltei com propósito”.",
+  "2026-06-15":"Técnica âncora: o ponto perfeito do chantilly (a dor nº1). Surfa o chantininho.",
+  "2026-06-16":"Negócio: o erro de precificação que faz você trabalhar de graça (mostra o app).",
+  "2026-06-17":"Tendência DOME CAKE: a técnica que parece difícil e não é — “não é dom, é método”.",
+  "2026-06-18":"Conexão: bastidor do dia + por que confeitaria não é dom (casa com a live).",
+  "2026-06-19":"Prova: antes/depois de uma aluna iniciante.",
+  "2026-06-20":"Leve (fds): dia a dia / filhos na cozinha (conexão).",
+  "2026-06-21":"Crença: “3 mentiras que te fazem achar que não tem mão pra bolo”.",
+  "2026-06-22":"Técnica: recheio no ponto que não escorre nem desestrutura.",
+  "2026-06-23":"Negócio: como organizar a produção da semana (cabeça de engenheira).",
+  "2026-06-24":"Tendência BOTÂNICO: bolo com flores comestíveis/folhagens — estética em alta.",
+  "2026-06-25":"Técnica: bolo do zero (foco no chantilly) — casa com a live do dia.",
+  "2026-06-26":"Prova social: depoimento de aluna que já vive de bolo.",
+  "2026-06-27":"Leve: caixinha de perguntas / tira-dúvidas (vira conteúdo).",
+  "2026-06-28":"Crença: “você não precisa de talento, precisa de método”.",
+  "2026-06-29":"Técnica: estruturação — o bolo que não desaba.",
+  "2026-06-30":"Negócio: quanto cobrar por um bolo (demonstra o app de precificação).",
+  "2026-07-01":"Tendência CORES NATURAIS (beterraba, cúrcuma) — surfa + prova o método.",
+  "2026-07-02":"Tira-dúvidas (casa com a live). Começa o TEASER sutil: “vem novidade 👀”.",
+  "2026-07-03":"TEASER: “semana que vem muda tudo pra quem quer vender bolo 👀”.",
+  "2026-07-04":"TEASER + conexão: prepara a audiência (sem revelar).",
+  "2026-07-05":"TEASER forte: “amanhã eu abro uma coisa que você vai querer”.",
+  "2026-07-06":"🎉 ANÚNCIO: INSCRIÇÕES ABERTAS — Desafio Bolo de Vender (casa com a live).",
+  "2026-07-07":"Captação: a transformação que o desafio entrega + chama a inscrição.",
+  "2026-07-08":"Captação: o que você aprende nos 5 dias + chama a inscrição.",
+  "2026-07-09":"Por que travam na decoração (casa com a live) + inscrição.",
+  "2026-07-10":"Prova social: aluna que faturou no Dia dos Pais + inscrição.",
+  "2026-07-11":"Leve: bastidor da preparação do desafio + inscrição.",
+  "2026-07-12":"Desejo: “quanto dá pra faturar com bolo no Dia dos Pais” + inscrição.",
+  "2026-07-13":"Tendência X BOLO / bolos individuais (ticket maior) + inscrição.",
+  "2026-07-14":"Faturamento no Dia dos Pais (casa com a live) + inscrição.",
+  "2026-07-15":"Captação: depoimento em vídeo (história real) + inscrição.",
+  "2026-07-16":"Bastidores do desafio (casa com a live) + inscrição.",
+  "2026-07-17":"Quebra de objeção: “não tenho tempo” + inscrição.",
+  "2026-07-18":"Leve: contagem regressiva pro desafio + inscrição.",
+  "2026-07-19":"Autoridade: mini-aula grátis (estrutura do bolo) + inscrição.",
+  "2026-07-20":"“Não é dom, é método” aplicado à decoração + inscrição.",
+  "2026-07-21":"Aula aberta: bolo que não desaba (casa com a live) + inscrição.",
+  "2026-07-22":"Negócio: o erro de cobrar barato e perder dinheiro + inscrição.",
+  "2026-07-23":"Prova social ao vivo: aluna convidada (casa com a live) + inscrição.",
+  "2026-07-24":"Captação: série de depoimentos + inscrição.",
+  "2026-07-25":"Leve: bastidor + inscrição.",
+  "2026-07-26":"Urgência: “faltam poucos dias pra se inscrever”.",
+  "2026-07-27":"Recap da transformação do desafio + inscrição.",
+  "2026-07-28":"Erros de precificação (casa com a live) + inscrição.",
+  "2026-07-29":"Urgência: “inscrições fechando” + prova social.",
+  "2026-07-30":"Últimos dias pra se inscrever (casa com a live).",
+  "2026-07-31":"Urgência final da inscrição + lembrete do material.",
+  "2026-08-01":"Esquenta: “começa segunda! separa ingredientes e utensílios”.",
+  "2026-08-02":"Esquenta: COMEÇA AMANHÃ (casa com a live) — checklist do material.",
+  "2026-08-03":"🔥 Desafio Dia 1 ao vivo (ver o marco do dia).",
+  "2026-08-04":"🔥 Desafio Dia 2 ao vivo (ver o marco do dia).",
+  "2026-08-05":"🔥 Desafio Dia 3 ao vivo (ver o marco do dia).",
+  "2026-08-06":"🔥 Desafio Dia 4 ao vivo (ver o marco do dia).",
+  "2026-08-07":"💥 Desafio Dia 5 + abre o carrinho (ver o marco do dia).",
+};
+
 /* segundas: reunião de alinhamento */
 function isSegunda(d){return new Date(d+"T12:00").getDay()===1;}
 
@@ -331,6 +390,7 @@ function abrir(ds){
   if(isSegunda(ds)){html+=`<div class="destaque" style="border-left-color:var(--cacau)"><b>📅 Segunda-feira:</b> reunião de alinhamento do time (30 min) — o que foi feito, o que trava, o que vem.</div>`;}
 
   if(LIVES[ds]){html+=`<div class="destaque" style="border-left-color:#e0556b"><b>🔴 LIVE hoje (19h–22h):</b> ${LIVES[ds]}</div>`;}
+  if(CONTEUDO[ds]){html+=`<div class="destaque" style="border-left-color:#8e6fb0"><b>📲 Conteúdo âncora do dia:</b> ${CONTEUDO[ds]}<br><span style="font-size:11px;color:#8a7570">Os 7 Reels do dia seguem o sistema de slots: técnica · negócio · conexão · prova · crença · caixinha · isca.</span></div>`;}
 
   const extra=(marco&&marco.extra)||{};
   const live={};
