@@ -43,6 +43,7 @@
   .dia.hoje{border-color:var(--cacau)}
   .dia.hoje::after{content:'HOJE';position:absolute;top:3px;font-size:7px;font-weight:800;color:var(--cacau);letter-spacing:.5px}
   .dia .star{position:absolute;top:3px;right:4px;font-size:10px;z-index:2}
+  .dia .livedot{position:absolute;top:3px;left:4px;font-size:11px;color:#e0556b;z-index:2;line-height:1}
   .dia.fim{opacity:.78}
 
   /* painel lateral / modal */
@@ -66,6 +67,8 @@
   .papel li::before{content:'';position:absolute;left:0;top:11px;width:7px;height:7px;border-radius:50%;background:var(--rosa)}
   .papel li.hot{color:#c0392b;font-weight:600}
   .papel li.hot::before{background:#e0556b}
+  .papel li.live{color:#c0392b;font-weight:600}
+  .papel li.live::before{background:#e0556b}
 
   .info{background:#fff;border-radius:12px;padding:16px;margin:0 0 18px;box-shadow:var(--sombra);font-size:13px;color:#5a4a47}
   .info h4{color:var(--cacau);font-size:15px;margin-bottom:8px}
@@ -237,6 +240,22 @@ const MARCOS = {
   "2026-08-14":{titulo:"🤝 Começa o Pós-venda",nota:"Onboarding das novas alunas e início da coleta de resultados."},
 };
 
+/* lives (19h–22h) por dia, com o tema alinhado ao planejamento */
+const LIVES={
+  "2026-06-18":"Minha volta + bate-papo: por que confeitaria NÃO é dom (reapresentação ao vivo)",
+  "2026-06-25":"Fazendo um bolo do zero ao vivo — o ponto certo do chantilly (mata a dor do “ponto”)",
+  "2026-07-02":"Tira-dúvidas: suas maiores travas na confeitaria (caixinha + conexão)",
+  "2026-07-06":"🎉 Inscrições ABERTAS: vem aí o Desafio Bolo de Vender — Edição Dia dos Pais",
+  "2026-07-09":"Por que tanta gente trava na decoração (e como o método resolve) + chama a inscrição",
+  "2026-07-14":"Quanto dá pra faturar vendendo bolo no Dia dos Pais + chama a inscrição",
+  "2026-07-16":"Bastidores: como vai ser o desafio + tira-dúvidas + chama a inscrição",
+  "2026-07-21":"Aula aberta: a estrutura de um bolo que não desaba + chama a inscrição",
+  "2026-07-23":"Prova social ao vivo: aluna conta como vive de bolo hoje (convidada) + inscrição",
+  "2026-07-28":"Os erros que fazem você cobrar barato e perder dinheiro (precificação) + inscrição",
+  "2026-07-30":"Últimos dias pra se inscrever no desafio (urgência da inscrição)",
+  "2026-08-02":"Esquenta do Desafio: COMEÇA AMANHÃ! Checklist do material",
+};
+
 /* segundas: reunião de alinhamento */
 function isSegunda(d){return new Date(d+"T12:00").getDay()===1;}
 
@@ -255,7 +274,7 @@ function montarLegenda(){
   const el=document.getElementById("legenda");
   el.innerHTML=Object.values(FASES).map(f=>
     `<span><i class="dot" style="background:${corVar('--'+f.cor.replace('--',''))}"></i>${f.nome}</span>`
-  ).join("")+`<span>⭐ dia-marco</span>`;
+  ).join("")+`<span>⭐ dia-marco</span><span><span style="color:#e0556b;font-size:15px;line-height:1">●</span>&nbsp;dia de live</span>`;
 }
 
 function montarCalendario(){
@@ -281,6 +300,7 @@ function montarCalendario(){
         cel.style.background=cor+"14";
         cel.innerHTML=`<span class="num" style="color:${cor}">${dia}</span><span class="faixa" style="background:${cor}"></span>`;
         if(MARCOS[ds])cel.innerHTML=`<span class="star">⭐</span>`+cel.innerHTML;
+        if(LIVES[ds])cel.innerHTML+=`<span class="livedot">●</span>`;
         cel.onclick=()=>abrir(ds);
       }else{
         cel.classList.add("vazio");
@@ -310,13 +330,23 @@ function abrir(ds){
   else{html+=`<div class="destaque">${f.resumo}</div>`;}
   if(isSegunda(ds)){html+=`<div class="destaque" style="border-left-color:var(--cacau)"><b>📅 Segunda-feira:</b> reunião de alinhamento do time (30 min) — o que foi feito, o que trava, o que vem.</div>`;}
 
+  if(LIVES[ds]){html+=`<div class="destaque" style="border-left-color:#e0556b"><b>🔴 LIVE hoje (19h–22h):</b> ${LIVES[ds]}</div>`;}
+
   const extra=(marco&&marco.extra)||{};
+  const live={};
+  if(LIVES[ds]){
+    live.expert=[`Fazer a LIVE (19h–22h): ${LIVES[ds]}`];
+    live.filmaker=[`Operar/gravar a live e cortar em Reels e Stories depois`];
+    live.social=[`Avisar da live (Stories na véspera + 1h antes) e reaproveitar os cortes`];
+  }
   ROLES.forEach(r=>{
     const base=TAREFAS[fase][r.id]||[];
     const ex=extra[r.id]||[];
+    const lv=live[r.id]||[];
     html+=`<div class="papel"><div class="pt"><span class="ic">${r.ic}</span>${r.nome}</div><ul>`+
       base.map(t=>`<li>${t}</li>`).join("")+
       ex.map(t=>`<li class="hot">🔥 ${t}</li>`).join("")+
+      lv.map(t=>`<li class="live">🔴 ${t}</li>`).join("")+
       `</ul></div>`;
   });
   document.getElementById("pCorpo").innerHTML=html;
