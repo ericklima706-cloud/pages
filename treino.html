@@ -169,7 +169,7 @@ tr.agora td{box-shadow:inset 3px 0 0 var(--forca)}
 .cards{display:grid; gap:14px; grid-template-columns:1fr}
 @media(min-width:720px){.cards.duas{grid-template-columns:1fr 1fr}}
 .card{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:16px 18px; box-shadow:var(--shadow)}
-.card h3{font-family:Oswald,sans-serif; text-transform:uppercase; font-size:16px; letter-spacing:.04em; margin:0 0 10px; display:flex; align-items:center; gap:8px}
+.card h3{font-family:Oswald,sans-serif; text-transform:uppercase; font-size:16px; letter-spacing:.04em; margin:0 0 10px; display:flex; align-items:baseline; gap:8px}
 .card h3::before{content:""; width:8px; height:8px; border-radius:2px; background:var(--ink3)}
 .card.forca h3::before{background:var(--forca)} .card.cardio h3::before{background:var(--cardio)}
 .card.nutri h3::before{background:var(--nutri)} .card.recup h3::before{background:var(--recup)}
@@ -177,6 +177,11 @@ tr.agora td{box-shadow:inset 3px 0 0 var(--forca)}
 .card li{margin-bottom:6px}
 .card li b{color:var(--ink)}
 .card p{margin:0 0 10px; color:var(--ink2); font-size:14px}
+.vol{list-style:none; padding:0; margin:12px 0 0; display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:8px; overflow:hidden}
+.vol li{background:var(--surface2); display:grid; grid-template-columns:1fr auto; gap:2px 10px; padding:9px 13px; margin:0; font-size:13.5px}
+.vol li b{color:var(--ink); font-weight:600}
+.vol li .q{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; font-weight:600; color:var(--forca); white-space:nowrap}
+.vol li .d{grid-column:1/-1; color:var(--ink3); font-size:12.5px; font-family:"IBM Plex Mono",monospace}
 
 /* ---------- regras ---------- */
 .regras{counter-reset:r; display:grid; gap:2px; border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--line)}
@@ -271,6 +276,22 @@ tr.agora td{box-shadow:inset 3px 0 0 var(--forca)}
 <section id="treino">
   <div class="sechead"><h2>O treino</h2><span class="tag">Segunda a sexta · 5 sessões na academia</span></div>
   <p class="lead">Cinco sessões, de segunda a sexta, todas dentro da academia. Superior e inferior alternados com frequência 2× por grupo, e a sexta fecha com um full body de densidade mais o HIIT. Frequência alta é o que mais protege músculo em déficit: você toca cada grupo duas vezes por semana com volume moderado, em vez de destruir uma vez e não recuperar. O cardio Z2 está dentro do treino de segunda, quarta e sexta — não é sessão extra. Sábado e domingo você não pisa na academia. Escolha a semana e o dia; as cargas que você digitar ficam salvas neste aparelho.</p>
+
+  <div class="card forca" style="margin-bottom:18px">
+    <h3>Por que peito e costas caem no mesmo dia</h3>
+    <p>Porque com cinco dias essa é a única forma de tocar cada grupo <b>duas vezes por semana</b> — e frequência 2× é o que mais protege músculo em déficit. Se o peito ganhasse um dia só dele, perna sobraria uma vez na semana. Não dá pra ter as duas coisas em cinco dias.</p>
+    <p>E o par joga a seu favor: peito e costas são <b>antagonistas</b>. Supinar não cansa o dorsal, remar não cansa o peitoral — você entrega intensidade real nos dois na mesma sessão. É justamente o oposto de juntar peito com tríceps ou costas com bíceps, onde você chega no isolador com o músculo já frito pelo composto.</p>
+    <p>O que decide o resultado é o volume da <b>semana</b>, não o do dia. Somando as três sessões em que cada grupo aparece:</p>
+    <ul class="vol">
+      <li><b>Peito</b><span class="q">15 séries</span><span class="d">seg 7 · qua 4 · sex 4</span></li>
+      <li><b>Costas</b><span class="q">18 séries</span><span class="d">seg 7 · qua 7 · sex 4</span></li>
+      <li><b>Ombro</b><span class="q">18 séries</span><span class="d">seg 6 · qua 6 · sex 6</span></li>
+      <li><b>Quadríceps</b><span class="q">14 séries</span><span class="d">ter 10 · sex 4</span></li>
+      <li><b>Posterior e glúteo</b><span class="q">16 séries</span><span class="d">ter 3 · qui 13</span></li>
+      <li><b>Bíceps e tríceps</b><span class="q">9 + 9 séries</span><span class="d">3 sessões cada, direto</span></li>
+    </ul>
+    <p style="margin:12px 0 0">Isso está acima do necessário para <b>manter</b> músculo — e manter é a sua missão, não construir. Um treino de peito de 20 séries numa segunda-feira te daria menos resultado em déficit, porque você não recupera 20 séries comendo 2.400 kcal.</p>
+  </div>
 
   <div class="semana">
     <label for="selSemana">Semana</label>
