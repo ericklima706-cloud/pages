@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
-<meta name="description" content="Coach pessoal do Erick: treino do dia com o movimento animado, cardápio, água, sono e progresso do protocolo de 12 semanas.">
+<meta name="description" content="Coach pessoal do Erick: treino das 13h com o movimento animado, cardápio de comida de verdade, água, sono e progresso das 12 semanas.">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#F2F2F7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
@@ -159,6 +159,7 @@ a{color:var(--accent); text-decoration:none}
 .refe ul{margin:0; padding:0 15px 12px 15px; list-style:none}
 .refe li{font-size:14.5px; color:var(--label2); padding:3px 0 3px 16px; position:relative}
 .refe li::before{content:""; position:absolute; left:2px; top:11px; width:5px; height:5px; border-radius:50%; background:var(--label3)}
+.refe .notaRef{margin:2px 15px 10px; font-size:13px; line-height:1.35; color:var(--label2); border-left:2px solid var(--anel-comida); padding-left:9px}
 .refe .mac{padding:8px 15px 12px; font-size:12.5px; color:var(--label3); font-variant-numeric:tabular-nums; border-top:.5px solid var(--sep)}
 .refe.feita{opacity:.55}
 .copos{display:grid; grid-template-columns:repeat(8,1fr); gap:7px}
@@ -309,6 +310,7 @@ a{color:var(--accent); text-decoration:none}
   <div class="wrap">
     <dl class="macros" id="macrosBox"></dl>
     <p class="dica" id="macrosAlvo"></p>
+    <p class="dica" id="comidaPorque"></p>
 
     <div class="sec">
       <h2>Refeições</h2>
@@ -321,6 +323,12 @@ a{color:var(--accent); text-decoration:none}
         <div class="copos" id="coposBox"></div>
         <p class="dica" style="margin:12px 0 0" id="aguaDica"></p>
       </div>
+    </div>
+
+    <div class="sec">
+      <h2>Compras da semana</h2>
+      <div class="lista" id="comprasLista"></div>
+      <p class="dica">Compre isso no domingo e a semana inteira está resolvida. Cozinhe o arroz, o feijão e uma dúzia de ovos de uma vez.</p>
     </div>
 
     <div class="sec">
@@ -938,8 +946,8 @@ function $(id){ return document.getElementById(id); }
 function nf(n){ return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
 
 /* ===================== configuração ===================== */
-var PADRAO = { inicio:"2026-09-14", acordar:"06:30", dormir:"23:00", treino:"17:30",
-               r1:"07:00", r2:"12:00", r3:"16:00", r4:"20:00", r5:"22:15", notif:"0" };
+var PADRAO = { inicio:"2026-09-14", acordar:"06:30", dormir:"23:00", treino:"13:00",
+               r1:"07:00", r2:"11:00", r3:"14:30", r4:"18:00", r5:"21:30", notif:"0" };
 function cfg(k){ return get("cfg:"+k, PADRAO[k]); }
 function setCfg(k,v){ set("cfg:"+k, v); }
 
@@ -968,38 +976,64 @@ function ehDiaDeTreino(){ var d=new Date().getDay(); return d>=1 && d<=5; }
 
 /* ===================== refeições ===================== */
 var REF_TREINO = [
- {t:"Café da manhã", it:["4 ovos inteiros + 2 claras","60 g de aveia","1 banana"], p:38,c:58,g:22},
- {t:"Almoço", it:["200 g de frango grelhado","150 g de arroz cozido","80 g de feijão","Salada à vontade + 1 fio de azeite"], p:52,c:64,g:14},
- {t:"Pré-treino", it:["40 g de whey","1 banana","1 tapioca (50 g de goma)"], p:35,c:54,g:3},
- {t:"Pós-treino · jantar", it:["200 g de tilápia ou patinho","250 g de batata-doce","Legumes no vapor"], p:48,c:58,g:11},
- {t:"Ceia", it:["200 g de iogurte natural ou skyr","30 g de whey","15 g de pasta de amendoim"], p:38,c:16,g:12}
+ {t:"Café da manhã", it:["4 ovos mexidos","1 pão francês","1 banana","Café preto, sem açúcar"], p:31,c:53,g:21,
+  nota:"Seis horas antes do treino. O ovo é a proteína mais barata que existe e o pão é o carboidrato que segura até as 11h."},
+ {t:"Pré-treino", it:["100 g de frango grelhado","150 g de arroz cozido","1 banana"], p:36,c:65,g:4,
+  nota:"Duas horas antes de puxar. Repare que não tem feijão, azeite nem salada aqui — fibra e gordura atrasam o estômago e você treina pesado com ele cheio. É arroz com frango e pronto."},
+ {t:"Pós-treino · almoço", it:["150 g de patinho ou acém magro","180 g de arroz cozido","150 g de feijão","Salada à vontade","1 colher de sopa de azeite"], p:60,c:71,g:21,
+  nota:"A maior refeição do dia. Vem logo depois do treino, que é quando o músculo mais aproveita o arroz. Prato cheio mesmo."},
+ {t:"Jantar", it:["130 g de frango grelhado","100 g de arroz cozido","100 g de feijão","Salada à vontade"], p:47,c:46,g:8,
+  nota:"Mesma comida do almoço, prato menor. O carboidrato pesado já foi à tarde."},
+ {t:"Ceia", it:["3 ovos cozidos","1 fruta (maçã, mamão ou banana)"], p:19,c:15,g:15,
+  nota:"Ovo cozido antes de dormir é proteína de digestão lenta. Cozinhe meia dúzia de uma vez e deixe na geladeira."}
 ];
 var REF_FOLGA = [
- {t:"Café da manhã", it:["4 ovos inteiros + 2 claras","40 g de aveia","1 fruta"], p:37,c:38,g:22},
- {t:"Almoço", it:["200 g de patinho ou frango","130 g de arroz cozido","80 g de feijão","Salada à vontade + azeite"], p:52,c:58,g:15},
- {t:"Lanche", it:["30 g de whey","1 fruta","20 g de castanhas"], p:27,c:22,g:12},
- {t:"Jantar", it:["200 g de peixe","180 g de batata-doce","Legumes no vapor"], p:46,c:44,g:9},
- {t:"Ceia", it:["200 g de skyr","20 g de whey"], p:36,c:12,g:4}
+ {t:"Café da manhã", it:["4 ovos mexidos","1 pão francês","1 fruta"], p:31,c:46,g:21,
+  nota:"Sem treino hoje: mesma proteína, um pouco menos de carboidrato."},
+ {t:"Almoço", it:["170 g de patinho ou frango","130 g de arroz cozido","120 g de feijão","Salada à vontade","½ colher de azeite"], p:65,c:53,g:17, nota:""},
+ {t:"Lanche da tarde", it:["3 ovos cozidos","1 fruta"], p:19,c:15,g:15,
+  nota:"Sem refeição pré-treino hoje, então o lanche fica só de ovo e fruta."},
+ {t:"Jantar", it:["170 g de frango grelhado","100 g de arroz cozido","100 g de feijão","Salada à vontade"], p:59,c:42,g:8, nota:""},
+ {t:"Ceia", it:["2 ovos cozidos","1 fruta"], p:13,c:16,g:10,
+  nota:"A proteína não cai em dia de folga. Os 190 g valem todo dia."}
+];
+var COMPRAS = [
+ ["Ovos", "5 dúzias", "4 no café e 3 na ceia, todo dia"],
+ ["Peito de frango", "1,5 kg", "pré-treino e jantar"],
+ ["Patinho ou acém magro", "1,1 kg", "o almoço da semana"],
+ ["Arroz cru", "900 g", "vira cerca de 2,6 kg cozido"],
+ ["Feijão cru", "600 g", "vira cerca de 1,7 kg cozido"],
+ ["Pão francês", "7 unidades", "um por dia, no café"],
+ ["Frutas", "19 unidades", "banana, maçã ou mamão"],
+ ["Verdura para salada", "12 refeições", "alface, tomate, cenoura, o que tiver"],
+ ["Azeite", "1 garrafa pequena", "1 colher por dia, no almoço"]
 ];
 function refeicoesHoje(){ return ehDiaDeTreino() ? REF_TREINO : REF_FOLGA; }
 function alvoHoje(){ return ehDiaDeTreino() ? {kcal:2400,p:190,c:250,g:70} : {kcal:2050,p:190,c:175,g:65}; }
 function horasRefeicao(){
-  var t = ehDiaDeTreino();
-  return [ t?cfg("r1"):hm(min(cfg("r1"))+90), t?cfg("r2"):hm(min(cfg("r2"))+30),
-           cfg("r3"), cfg("r4"), cfg("r5") ];
+  if (ehDiaDeTreino()) return [cfg("r1"), cfg("r2"), cfg("r3"), cfg("r4"), cfg("r5")];
+  /* Sem treino para ancorar, as refeições se espalham pelo dia. */
+  return [hm(min(cfg("r1"))+90), hm(min(cfg("r2"))+120), hm(min(cfg("r3"))+90),
+          hm(min(cfg("r4"))+60), cfg("r5")];
 }
 var REGRAS_COMIDA = [
  ["Proteína é inegociável","190 g todo dia, treino ou folga. Monte o resto do prato depois que ela estiver garantida."],
  ["Não corte sódio","Piora o treino e o que você perde é água, não gordura."],
  ["Refeed a cada 14 dias","Na sexta: +120 g de carboidrato, −25 g de gordura, proteína igual."],
  ["Álcool","No máximo 1 ocasião a cada 15 dias, e entra no orçamento do dia."],
- ["Creatina 5 g","Todo dia, inclusive folga. Ela segura 1 a 1,5 kg de água no músculo — a balança trava na 1ª semana e isso não é gordura."]
+ ["Creatina 5 g","Todo dia, inclusive folga. Ela segura 1 a 1,5 kg de água no músculo — a balança trava na 1ª semana e isso não é gordura."],
+ ["Whey só se sobrar proteína","Este cardápio fecha os 190 g com ovo, frango e carne. Whey vira útil só no dia em que você não conseguir comer — não é obrigatório."],
+ ["Pese o arroz e a carne cozidos","As quantidades aqui são do alimento pronto no prato, não cru. Uma semana pesando e você passa a acertar no olho."]
 ];
 
 /* ===================== rotina do dia ===================== */
+/* Os copos se distribuem em volta do treino: um antes, um durante, um logo
+   depois. Beber muito de uma vez não compensa ter passado o dia sem beber. */
 function horasAgua(){
-  var a = min(cfg("acordar"));
-  return [0,150,270,420,540,660,750,870].map(function(o){ return hm(a+o); });
+  var a = min(cfg("acordar")), t = min(cfg("treino")), d = min(cfg("dormir"));
+  var h = [a, a + 120, t - 60, t, t + 60, t + 180, t + 330, d - 120];
+  h.sort(function(x,y){ return x - y; });
+  return h.map(hm);
 }
 function rotina(){
   var itens = [], hr = horasRefeicao(), ag = horasAgua(), refs = refeicoesHoje();
@@ -1232,6 +1266,7 @@ function renderComida(){
       '<span class="t">'+esc(r.t)+'</span>'+
       '<button class="tgl" data-ref="'+i+'" aria-pressed="'+(f?"true":"false")+'" aria-label="Marcar '+esc(r.t)+'">'+check+'</button></div>'+
       '<ul>'+r.it.map(function(x){ return "<li>"+esc(x)+"</li>"; }).join("")+'</ul>'+
+      (r.nota ? '<p class="notaRef">'+esc(r.nota)+'</p>' : '')+
       '<div class="mac">'+(r.p*4+r.c*4+r.g*9)+' kcal · P '+r.p+' g · C '+r.c+' g · G '+r.g+' g</div></div>';
   }).join("");
   Array.prototype.forEach.call($("refeicoes").querySelectorAll("[data-ref]"), function(b){
@@ -1251,7 +1286,16 @@ function renderComida(){
       set("ag:"+dk+":"+i, v?"1":"0"); renderComida(); desenhaAneis(); renderHoje();
     });
   });
+  $("comidaPorque").innerHTML = ehDiaDeTreino()
+    ? "Com o treino às " + cfg("treino") + ", o carboidrato se concentra entre as " + cfg("r2") + " e as " + cfg("r3") +
+      " — antes para ter combustível e depois para repor. A noite fica mais leve, o que ajuda a dormir. " +
+      "<b>Bônus do horário:</b> a cafeína do pré-treino cai por volta do meio-dia, então ela não briga mais com o seu sono."
+    : "Dia de folga: mesma proteína, menos carboidrato, refeições espalhadas pelo dia.";
   $("aguaDica").textContent = n + " de 8 copos · " + (n*0.5).toFixed(1).replace(".",",") + " L de 4 L. Cada quadrado é 500 ml no horário marcado.";
+  $("comprasLista").innerHTML = COMPRAS.map(function(c){
+    return '<div class="linha"><span class="cor"><span class="t">'+esc(c[0])+'</span><span class="s">'+esc(c[2])+'</span></span>'+
+      '<span class="dir num" style="font-weight:600;color:var(--label)">'+esc(c[1])+'</span></div>';
+  }).join("");
   $("regrasComida").innerHTML = REGRAS_COMIDA.map(function(r){
     return '<div class="linha"><span class="cor"><span class="t">'+esc(r[0])+'</span><span class="s">'+esc(r[1])+'</span></span></div>';
   }).join("");
@@ -1357,7 +1401,7 @@ function renderAjustes(){
   $("btnTeste").addEventListener("click", function(){ notifica("Teste do coach", "Se você está vendo isso, os lembretes funcionam.", gota, "var(--anel-agua)"); });
   $("btnCopiar").addEventListener("click", copiaHorarios);
 
-  var campos = [["acordar","Acordar"],["r1","Refeição 1"],["r2","Refeição 2"],["r3","Refeição 3 · pré-treino"],["treino","Treino"],["r4","Refeição 4 · pós"],["r5","Refeição 5 · ceia"],["dormir","Dormir"]];
+  var campos = [["acordar","Acordar"],["r1","Café da manhã"],["r2","Pré-treino"],["treino","Treino"],["r3","Pós-treino · almoço"],["r4","Jantar"],["r5","Ceia"],["dormir","Dormir"]];
   $("horariosLista").innerHTML = campos.map(function(c){
     return '<div class="linha"><span class="cor"><span class="t">'+c[1]+'</span></span>'+
       '<span class="dir"><input type="time" id="hr_'+c[0]+'" data-c="'+c[0]+'" value="'+cfg(c[0])+'"></span></div>';
@@ -1614,7 +1658,11 @@ function irPara(id){
   $("topoTit").textContent = a.t;
   if (id === "hoje"){ var d = new Date(); $("topoSup").textContent = DIAS_SEM[d.getDay()] + ", " + d.getDate() + " de " + MESES[d.getMonth()]; }
   else if (id === "treino"){ $("topoSup").textContent = diaObj(diaDeHoje()).dia + " · " + diaObj(diaDeHoje()).nome; }
-  else if (id === "comida"){ $("topoSup").textContent = ehDiaDeTreino() ? "Dia de treino · 2.400 kcal" : "Dia de folga · 2.050 kcal"; }
+  else if (id === "comida"){
+    var rr = refeicoesHoje(), kk = 0;
+    rr.forEach(function(r){ kk += r.p*4 + r.c*4 + r.g*9; });
+    $("topoSup").textContent = (ehDiaDeTreino() ? "Dia de treino · " : "Dia de folga · ") + nf(kk) + " kcal";
+  }
   else if (id === "progresso"){ $("topoSup").textContent = "Semana " + semanaDoProtocolo().n + " de 12"; }
   else { $("topoSup").textContent = "Coach Erick"; }
   window.scrollTo(0,0);
