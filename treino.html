@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Protocolo de corte de 12 semanas montado a partir do InBody de 10/09/2026: treino, cardio, dieta, periodização e registro de cargas.">
+<meta name="color-scheme" content="light dark">
+<style>*{margin:0;padding:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Protocolo Erick 12 Semanas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#E8EBEC; --surface:#FFFFFF; --surface2:#F2F5F5; --sunken:#DFE4E5;
+  --ink:#161C1F; --ink2:#3D484D; --ink3:#66747A; --line:#D2D9DA; --line2:#C2CBCD;
+  --forca:#B23A21; --forca-bg:#F7E9E5;
+  --cardio:#0F7285; --cardio-bg:#E3F0F2;
+  --nutri:#8A6210; --nutri-bg:#F5EEDF;
+  --recup:#456B4C; --recup-bg:#E7EFE7;
+  --serie-magra:#0089A8; --serie-gordura:#C2452A; --band:#C7D0D2;
+  --focus:#0F7285;
+  --shadow:0 1px 2px rgba(22,28,31,.06),0 6px 18px rgba(22,28,31,.06);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#101416; --surface:#181E20; --surface2:#1F2629; --sunken:#0B0E10;
+    --ink:#E7ECED; --ink2:#BCC6C9; --ink3:#8D9A9E; --line:#2A3336; --line2:#3A4548;
+    --forca:#E58163; --forca-bg:#2C1D18;
+    --cardio:#4FB8CE; --cardio-bg:#12262B;
+    --nutri:#D9A945; --nutri-bg:#2A2213;
+    --recup:#93B998; --recup-bg:#182118;
+    --serie-magra:#1E9FBD; --serie-gordura:#DD5B3A; --band:#333F42;
+    --focus:#4FB8CE;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.28);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#101416; --surface:#181E20; --surface2:#1F2629; --sunken:#0B0E10;
+  --ink:#E7ECED; --ink2:#BCC6C9; --ink3:#8D9A9E; --line:#2A3336; --line2:#3A4548;
+  --forca:#E58163; --forca-bg:#2C1D18;
+  --cardio:#4FB8CE; --cardio-bg:#12262B;
+  --nutri:#D9A945; --nutri-bg:#2A2213;
+  --recup:#93B998; --recup-bg:#182118;
+  --serie-magra:#1E9FBD; --serie-gordura:#DD5B3A; --band:#333F42;
+  --focus:#4FB8CE;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.28);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px; margin:0 auto; padding-inline:16px; padding-block:0 88px}
+h1,h2,h3,.disp{font-family:Oswald,"IBM Plex Sans",sans-serif; font-weight:600; letter-spacing:.01em; text-wrap:balance; margin:0}
+.num{font-family:"IBM Plex Mono",ui-monospace,monospace; font-variant-numeric:tabular-nums}
+a{color:var(--cardio)}
+:focus-visible{outline:2px solid var(--focus); outline-offset:2px; border-radius:3px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+
+/* ---------- cabeçalho ---------- */
+.ficha{border-bottom:1px solid var(--line); background:var(--surface); padding-block:26px 0}
+.ficha-in{max-width:960px; margin:0 auto; padding-inline:16px}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink3)}
+.ficha h1{font-size:clamp(30px,7vw,46px); line-height:1.02; text-transform:uppercase; margin:6px 0 2px}
+.ficha h1 em{font-style:normal; color:var(--forca)}
+.ficha .sub{color:var(--ink2); max-width:60ch; margin:8px 0 20px}
+.strip{display:grid; grid-template-columns:repeat(auto-fit,minmax(112px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); border-bottom:none; border-radius:8px 8px 0 0; overflow:hidden}
+.strip div{background:var(--surface); padding:10px 12px 12px}
+.strip dt{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink3); margin:0}
+.strip dd{margin:2px 0 0; font-family:Oswald,sans-serif; font-size:24px; font-weight:500; line-height:1.1}
+.strip dd small{font-size:12px; font-weight:400; color:var(--ink3); font-family:"IBM Plex Sans",sans-serif}
+.strip .alerta dd{color:var(--forca)}
+.strip .ok dd{color:var(--recup)}
+
+/* ---------- seções ---------- */
+section{margin-top:38px}
+.sechead{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; border-bottom:2px solid var(--ink); padding-bottom:6px; margin-bottom:18px}
+.sechead h2{font-size:22px; text-transform:uppercase}
+.sechead .tag{margin-left:auto; font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink3); letter-spacing:.08em}
+.lead{color:var(--ink2); max-width:66ch; margin:0 0 18px}
+
+/* ---------- leitura do inbody ---------- */
+.leitura{display:grid; gap:12px}
+.pt{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:14px 16px; box-shadow:var(--shadow)}
+.pt h3{font-size:15px; font-family:"IBM Plex Sans",sans-serif; font-weight:600; letter-spacing:0; margin-bottom:3px}
+.pt p{margin:0; color:var(--ink2); font-size:14px}
+.pt.destaque{border-left:3px solid var(--forca)}
+.pt b{color:var(--ink); font-weight:600}
+.figuras{display:grid; grid-template-columns:1fr; gap:16px; margin-top:18px}
+@media(min-width:720px){.figuras{grid-template-columns:1fr 1fr}}
+figure{margin:0; background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:14px 16px 12px; box-shadow:var(--shadow)}
+figcaption{font-size:13px; color:var(--ink3); margin-top:8px}
+.figtitle{font-family:Oswald,sans-serif; font-weight:500; font-size:15px; text-transform:uppercase; letter-spacing:.04em; margin-bottom:12px}
+.legenda{display:flex; gap:14px; flex-wrap:wrap; font-size:12px; color:var(--ink2); margin-top:10px}
+.legenda i{width:10px; height:10px; border-radius:2px; display:inline-block; margin-right:5px; vertical-align:-1px}
+.swatch-magra{background:var(--serie-magra)} .swatch-gordura{background:var(--serie-gordura)} .swatch-band{background:var(--band)}
+.chart-svg{width:100%; height:auto; display:block; overflow:hidden}
+.ax{fill:var(--ink3); font-family:"IBM Plex Mono",monospace; font-size:10px}
+.axline{stroke:var(--line2); stroke-width:1}
+.grid{stroke:var(--line); stroke-width:1; stroke-dasharray:2 4}
+.lbl{fill:var(--ink); font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:500}
+.lbl-inv{fill:#fff; font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:500}
+
+/* ---------- barra de semana ---------- */
+.semana{position:sticky; top:0; z-index:20; background:var(--surface); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); padding:10px 12px; display:flex; align-items:center; gap:10px 14px; flex-wrap:wrap}
+.semana label{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink3)}
+.semana select{font-family:Oswald,sans-serif; font-size:17px; font-weight:500; background:var(--surface2); color:var(--ink); border:1px solid var(--line2); border-radius:6px; padding:5px 8px}
+.semana .meta{display:flex; gap:14px; flex-wrap:wrap; margin-left:auto; font-size:12.5px; color:var(--ink2)}
+.semana .meta b{font-family:"IBM Plex Mono",monospace; color:var(--ink); font-weight:600}
+.faseTag{font-family:Oswald,sans-serif; text-transform:uppercase; font-size:12px; letter-spacing:.08em; padding:3px 9px; border-radius:20px; background:var(--forca-bg); color:var(--forca)}
+.faseTag[data-descarga="1"]{background:var(--recup-bg); color:var(--recup)}
+
+/* ---------- abas de dia ---------- */
+.abas{display:flex; gap:6px; overflow-x:auto; padding:14px 0 4px; scrollbar-width:thin}
+.abas button{flex:0 0 auto; scroll-snap-align:start; cursor:pointer; background:var(--surface); color:var(--ink2); border:1px solid var(--line); border-radius:8px; padding:8px 12px; text-align:left; font-family:inherit; transition:.12s}
+.abas button .d{display:block; font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink3)}
+.abas button .n{display:block; font-family:Oswald,sans-serif; font-size:14px; font-weight:500; text-transform:uppercase; white-space:nowrap}
+.abas button[aria-selected="true"]{background:var(--ink); border-color:var(--ink); color:var(--surface)}
+.abas button[aria-selected="true"] .d{color:var(--ground)}
+
+.painel{background:var(--surface); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow); overflow:hidden}
+.painel-top{padding:16px 18px 14px; border-bottom:1px solid var(--line); display:flex; gap:12px; align-items:flex-start; flex-wrap:wrap}
+.painel-top h3{font-size:21px; text-transform:uppercase; line-height:1.1}
+.painel-top .obj{color:var(--ink2); font-size:13.5px; margin:2px 0 0; max-width:56ch}
+.painel-top .dur{margin-left:auto; text-align:right; font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink3); white-space:nowrap}
+.aviso{margin:0; padding:10px 18px; font-size:13px; background:var(--recup-bg); color:var(--recup); border-bottom:1px solid var(--line)}
+.aviso b{font-weight:600}
+
+.ex{display:grid; grid-template-columns:26px 1fr auto; gap:4px 12px; padding:14px 18px; border-bottom:1px solid var(--line); align-items:start}
+.ex:last-child{border-bottom:none}
+.ex .idx{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink3); padding-top:3px}
+.ex .nome{font-weight:600; line-height:1.3}
+.ex .obs{grid-column:2/-1; color:var(--ink3); font-size:13px; margin-top:3px}
+.ex .presc{display:flex; align-items:center; gap:8px; white-space:nowrap}
+.ex .sr{font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:14px}
+.ex .desc{cursor:pointer; font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--cardio); background:var(--cardio-bg); border:1px solid transparent; border-radius:20px; padding:3px 9px}
+.ex .desc:hover{border-color:var(--cardio)}
+.ex .log{grid-column:2/-1; display:flex; align-items:center; gap:10px; margin-top:8px; flex-wrap:wrap}
+.ex .log input[type=text]{width:120px; font-family:"IBM Plex Mono",monospace; font-size:13px; background:var(--surface2); color:var(--ink); border:1px solid var(--line2); border-radius:6px; padding:5px 8px}
+.ex .log input[type=text]::placeholder{color:var(--ink3)}
+.ex .log label{display:inline-flex; align-items:center; gap:6px; font-size:13px; color:var(--ink3); cursor:pointer}
+.ex .log input[type=checkbox]{width:17px; height:17px; accent-color:var(--forca)}
+.ex.feito{background:var(--surface2)}
+.ex.feito .nome{color:var(--ink3); text-decoration:line-through; text-decoration-thickness:1px}
+.circuito{margin:0; padding:12px 18px; background:var(--forca-bg); color:var(--forca); font-size:13px; border-bottom:1px solid var(--line); font-weight:500}
+
+.blococard{padding:16px 18px; border-bottom:1px solid var(--line)}
+.blococard:last-child{border-bottom:none}
+.blococard h4{font-family:Oswald,sans-serif; font-weight:500; text-transform:uppercase; letter-spacing:.05em; font-size:15px; margin:0 0 8px}
+.blococard ul{margin:0; padding-left:18px; color:var(--ink2); font-size:14px}
+.blococard li{margin-bottom:5px}
+.blococard li b{color:var(--ink)}
+
+/* ---------- tabelas ---------- */
+.tabwrap{overflow-x:auto; border:1px solid var(--line); border-radius:10px; background:var(--surface); box-shadow:var(--shadow)}
+table{border-collapse:collapse; width:100%; min-width:460px; font-size:14px}
+th,td{text-align:left; padding:10px 14px; border-bottom:1px solid var(--line)}
+thead th{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink3); background:var(--surface2); white-space:nowrap}
+tbody tr:last-child td{border-bottom:none}
+td.n{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; white-space:nowrap}
+tr.descargaRow td{background:var(--recup-bg)}
+tr.agora td{box-shadow:inset 3px 0 0 var(--forca)}
+.mono-strong{font-family:"IBM Plex Mono",monospace; font-weight:600}
+
+/* ---------- cards genéricos ---------- */
+.cards{display:grid; gap:14px; grid-template-columns:1fr}
+@media(min-width:720px){.cards.duas{grid-template-columns:1fr 1fr}}
+.card{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:16px 18px; box-shadow:var(--shadow)}
+.card h3{font-family:Oswald,sans-serif; text-transform:uppercase; font-size:16px; letter-spacing:.04em; margin:0 0 10px; display:flex; align-items:center; gap:8px}
+.card h3::before{content:""; width:8px; height:8px; border-radius:2px; background:var(--ink3)}
+.card.forca h3::before{background:var(--forca)} .card.cardio h3::before{background:var(--cardio)}
+.card.nutri h3::before{background:var(--nutri)} .card.recup h3::before{background:var(--recup)}
+.card ul{margin:0; padding-left:18px; color:var(--ink2); font-size:14px}
+.card li{margin-bottom:6px}
+.card li b{color:var(--ink)}
+.card p{margin:0 0 10px; color:var(--ink2); font-size:14px}
+
+/* ---------- regras ---------- */
+.regras{counter-reset:r; display:grid; gap:2px; border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--line)}
+.regras li{counter-increment:r; list-style:none; background:var(--surface); padding:14px 18px 14px 54px; position:relative; font-size:14.5px; color:var(--ink2)}
+.regras li::before{content:counter(r,decimal-leading-zero); position:absolute; left:16px; top:14px; font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--forca); font-weight:600}
+.regras li b{color:var(--ink); font-weight:600}
+.regras{padding:0; margin:0}
+
+/* ---------- registro ---------- */
+.reg{display:grid; grid-template-columns:repeat(auto-fill,minmax(148px,1fr)); gap:10px}
+.regitem{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:9px 11px}
+.regitem span{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink3); display:block; margin-bottom:5px}
+.regitem .par{display:flex; gap:6px}
+.regitem input{width:100%; min-width:0; font-family:"IBM Plex Mono",monospace; font-size:13px; background:var(--surface2); color:var(--ink); border:1px solid var(--line2); border-radius:5px; padding:5px 6px}
+.regitem input::placeholder{color:var(--ink3); font-size:11px}
+
+/* ---------- cronômetro ---------- */
+.timer{position:fixed; left:0; right:0; bottom:0; z-index:60; background:var(--ink); color:var(--ground); display:flex; align-items:center; gap:12px; padding:11px 16px; box-shadow:0 -6px 20px rgba(0,0,0,.22)}
+.timer[hidden]{display:none!important}
+.timer .t{font-family:"IBM Plex Mono",monospace; font-size:26px; font-weight:600; min-width:72px}
+.timer .q{font-size:13px; opacity:.75; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.timer button{margin-left:auto; flex:0 0 auto; background:transparent; color:var(--ground); border:1px solid rgba(255,255,255,.35); border-radius:6px; padding:6px 11px; font-family:"IBM Plex Mono",monospace; font-size:12px; cursor:pointer}
+.timer button+button{margin-left:6px}
+.timer button:hover{background:rgba(255,255,255,.12)}
+.timer.fim{background:var(--forca); color:#fff}
+
+.rodape{margin-top:40px; padding-top:16px; border-top:1px solid var(--line); font-size:12.5px; color:var(--ink3)}
+.rodape b{color:var(--ink2)}
+</style>
+
+</head>
+<body>
+<div class="ficha">
+  <div class="ficha-in">
+    <div class="eyebrow">Protocolo de corte · 12 semanas · início 10 set 2026</div>
+    <h1>Erick, você não precisa de músculo.<br>Precisa <em>proteger</em> o que já tem.</h1>
+    <p class="sub">Leitura do seu InBody de 10/09/2026: 91,3 kg, 23,4% de gordura, 40,1 kg de massa muscular esquelética. O relatório diz <span class="mono-strong">controle muscular: 0 kg</span> e <span class="mono-strong">controle de gordura: −9 kg</span>. Isso define o plano inteiro — treino pesado para segurar músculo, déficit e cardio para tirar os 9 kg.</p>
+    <dl class="strip">
+      <div><dt>Peso hoje</dt><dd class="num">91,3<small> kg</small></dd></div>
+      <div><dt>Meta</dt><dd class="num">82,3<small> kg</small></dd></div>
+      <div class="alerta"><dt>Gordura</dt><dd class="num">21,3<small> kg · 23,4%</small></dd></div>
+      <div class="ok"><dt>Músculo</dt><dd class="num">40,1<small> kg · manter</small></dd></div>
+      <div class="alerta"><dt>Cintura/quadril</dt><dd class="num">0,94<small> · alvo &lt;0,90</small></dd></div>
+      <div class="alerta"><dt>Visceral</dt><dd class="num">9<small> · teto da faixa</small></dd></div>
+    </dl>
+  </div>
+</div>
+
+<div class="wrap">
+
+<section id="leitura">
+  <div class="sechead"><h2>O que os seus números dizem</h2><span class="tag">InBody · 10.09.26</span></div>
+  <div class="leitura">
+    <div class="pt destaque">
+      <h3>Sua gordura está concentrada no meio — e essa é a que sai primeiro</h3>
+      <p>São <b>12 kg dos seus 21,3 kg de gordura no tronco</b> (56%), contra 1,2 kg em cada braço e 2,8 kg em cada perna. Some a isso RCQ de 0,94 e gordura visceral no nível 9, o topo da faixa. A boa notícia é metabólica: gordura visceral é a mais ativa e a mais sensível a déficit + cardio de baixa intensidade. <b>Nas primeiras 3 semanas sua cintura vai cair mais rápido que a balança.</b> Meça a cintura, não confie só no peso.</p>
+    </div>
+    <div class="pt">
+      <h3>Seu IMC de 28,2 está mentindo</h3>
+      <p>IMC não enxerga 40,1 kg de músculo. Com 23,4% de gordura você não é obeso — você é um cara grande com gordura acumulada no meio. O número que importa aqui é o percentual, e o alvo dele é <b>14–15%</b>.</p>
+    </div>
+    <div class="pt">
+      <h3>Simetria quase perfeita: não precisa de treino corretivo</h3>
+      <p>Braço direito 4,08 kg contra esquerdo 4,05 kg. Perna direita 10,38 kg contra esquerda 10,41 kg. Menos de 1% de diferença dos dois lados. <b>Você pode carregar pesado em bilateral sem medo</b> — nada de gastar tempo com trabalho de correção que você não precisa.</p>
+    </div>
+    <div class="pt">
+      <h3>Braço é o seu elo mais fraco em termos relativos</h3>
+      <p>8,13 kg de massa magra nos dois braços contra 20,79 kg nas duas pernas e 31,01 kg de tronco. Por isso o plano tem <b>trabalho direto de braço 3× por semana</b>: é barato de recuperar, e é o que mais aparece quando a gordura do braço (1,2 kg de cada lado, já baixa) some.</p>
+    </div>
+    <div class="pt">
+      <h3>Você não está começando do zero</h3>
+      <p>Água corporal 51,2 L e proteína 14 kg, ambas <b>acima</b> da faixa de referência. Pontuação InBody 80. Corpo hidratado, boa massa proteica, histórico de treino. Isso significa que você aguenta um protocolo agressivo — e é exatamente o que está aqui.</p>
+    </div>
+  </div>
+
+  <div class="figuras">
+    <figure>
+      <div class="figtitle">Onde chegar: mesma massa magra, menos gordura</div>
+      <div id="chartComp"></div>
+      <div class="legenda"><span><i class="swatch-magra"></i>Massa magra</span><span><i class="swatch-gordura"></i>Massa de gordura</span></div>
+      <figcaption>Os 70 kg de massa magra não se movem. Todo o corte de 9 kg sai da barra vermelha — de 21,3 kg para 12,3 kg de gordura, ou 15% de PGC.</figcaption>
+    </figure>
+    <figure>
+      <div class="figtitle">Ritmo alvo e seu peso registrado</div>
+      <div id="chartPeso"></div>
+      <div class="legenda"><span><i class="swatch-band"></i>Ritmo alvo (0,5–0,8 kg/semana)</span><span><i class="swatch-gordura"></i>Sua média de 7 dias</span></div>
+      <figcaption>Dentro da faixa cinza, você está perdendo gordura e segurando músculo. Acima dela é rápido demais e o músculo entra na conta. Preencha o registro no fim da página e os pontos aparecem aqui.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="treino">
+  <div class="sechead"><h2>O treino</h2><span class="tag">5 sessões de peso + 1 metabólico</span></div>
+  <p class="lead">Divisão superior/inferior com frequência 2× por grupo, mais um dia full body de densidade. Frequência alta é o que mais protege músculo em déficit: você toca cada grupo duas vezes por semana com volume moderado, em vez de destruir uma vez e não recuperar. Escolha a semana e o dia — as cargas que você digitar ficam salvas neste aparelho.</p>
+
+  <div class="semana">
+    <label for="selSemana">Semana</label>
+    <select id="selSemana" aria-label="Semana do protocolo"></select>
+    <span class="faseTag" id="faseTag">Bloco 1 · Base</span>
+    <div class="meta">
+      <span>Alvo de esforço <b id="mRir">RIR 3</b></span>
+      <span>Calorias <b id="mKcal">2400 / 2100</b></span>
+      <span>Passos <b id="mPassos">10.000</b></span>
+    </div>
+  </div>
+
+  <div class="abas" id="abas" role="tablist" aria-label="Dias da semana"></div>
+  <div id="painelDia"></div>
+</section>
+
+<section id="cardio">
+  <div class="sechead"><h2>Cardio e passos</h2><span class="tag">A parte que a maioria erra</span></div>
+  <p class="lead">Cardio não é castigo nem é o motor do emagrecimento — o déficit é. Cardio é a ferramenta para gastar sem cortar mais comida e, no seu caso específico, para atacar gordura visceral. Existem três doses e cada uma tem uma função diferente.</p>
+  <div class="cards duas">
+    <div class="card cardio">
+      <h3>Z2 · a base</h3>
+      <p><b>3 a 4× por semana, 35–50 min.</b> Esteira inclinada 8–10% a 5–5,5 km/h, bike ou elíptico. Frequência cardíaca entre <span class="mono-strong">115 e 135 bpm</span> (sua FC máxima estimada é 192).</p>
+      <ul>
+        <li>Teste: você tem que conseguir manter uma conversa. Se ofegou, baixou o ritmo.</li>
+        <li><b>Sempre depois do peso</b>, ou em outro horário do dia. Nunca antes.</li>
+        <li>Sem impacto de preferência. A 91 kg, correr 4× por semana cobra dos joelhos.</li>
+      </ul>
+    </div>
+    <div class="card cardio">
+      <h3>HIIT · o acelerador</h3>
+      <p><b>1 a 2× por semana, 12–16 min.</b> Bike, remo ou escada. <span class="mono-strong">30s forte (RPE 8–9) / 90s leve</span>, 8 a 10 tiros.</p>
+      <ul>
+        <li><b>Nunca no dia anterior a um treino de perna.</b> Por isso ele vive no sábado.</li>
+        <li>Zero HIIT nas semanas de descarga (4, 8 e 12).</li>
+        <li>Se o HIIT está fazendo você render menos no agachamento, corte o HIIT primeiro — não a comida.</li>
+      </ul>
+    </div>
+    <div class="card recup">
+      <h3>Passos · a maior alavanca</h3>
+      <p><b>10.000 subindo até 14.000 por dia.</b> Isso é NEAT, e no total da semana ele queima mais que qualquer sessão de esteira.</p>
+      <ul>
+        <li>Não aumenta a fome como o cardio intenso aumenta.</li>
+        <li>Não compete com a recuperação do treino de força.</li>
+        <li>Em déficit o corpo reduz o movimento espontâneo sem avisar. Meta explícita de passos existe justamente para impedir isso.</li>
+      </ul>
+    </div>
+    <div class="card recup">
+      <h3>Sono · inegociável</h3>
+      <p><b>7 a 9 horas.</b> É a alavanca mais subestimada do corte e a que mais mexe na sua gordura visceral, porque mexe no cortisol.</p>
+      <ul>
+        <li>Dormir pouco em déficit desloca a perda de peso para a massa magra — exatamente o que você não pode perder.</li>
+        <li>Cafeína só até as 14h.</li>
+        <li>Uma noite ruim custa mais que uma refeição ruim. Priorize nessa ordem.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="dieta">
+  <div class="sechead"><h2>A dieta</h2><span class="tag">TMB 1881 · gasto estimado ~2.900</span></div>
+  <p class="lead">Sua taxa metabólica basal é 1.881 kcal. Com 5 treinos, cardio e 12 mil passos, seu gasto diário fica em torno de 2.850–3.000 kcal. O plano usa calorias diferentes em dia de treino e em dia de folga — mesma média semanal, melhor desempenho na academia.</p>
+  <div class="tabwrap">
+    <table>
+      <thead><tr><th>Dia</th><th>Calorias</th><th>Proteína</th><th>Carboidrato</th><th>Gordura</th></tr></thead>
+      <tbody>
+        <tr><td><b>Treino</b> (seg, ter, qui, sex, sáb)</td><td class="n">2.400 kcal</td><td class="n">190 g</td><td class="n">250 g</td><td class="n">70 g</td></tr>
+        <tr><td><b>Folga</b> (qua, dom)</td><td class="n">2.050 kcal</td><td class="n">190 g</td><td class="n">175 g</td><td class="n">65 g</td></tr>
+        <tr><td>Média semanal</td><td class="n">~2.300 kcal</td><td class="n">190 g</td><td class="n">—</td><td class="n">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="cards duas" style="margin-top:14px">
+    <div class="card nutri">
+      <h3>Divisão do dia · 5 refeições</h3>
+      <ul>
+        <li><b>07h</b> — 4 ovos + 2 claras, 60 g de aveia, 1 fruta</li>
+        <li><b>12h</b> — 200 g de frango ou patinho, 150 g de arroz, feijão, salada, 1 fio de azeite</li>
+        <li><b>16h (pré)</b> — 40 g de whey, 1 banana, 1 tapioca ou 2 fatias de pão</li>
+        <li><b>20h (pós)</b> — 200 g de peixe ou carne magra, 200 g de batata-doce ou arroz, legumes</li>
+        <li><b>22h30</b> — 200 g de iogurte natural ou skyr + 30 g de whey</li>
+      </ul>
+      <p style="margin-top:10px">Em dia de folga, corte carboidrato do pré-treino e do pós. <b>Proteína nunca muda.</b></p>
+    </div>
+    <div class="card nutri">
+      <h3>Os detalhes que decidem</h3>
+      <ul>
+        <li><b>Proteína 190 g/dia</b> = 2,7 g por kg de massa magra. É o único macro que não negocia, treino ou folga.</li>
+        <li><b>Fibras 30–35 g</b> e <b>3,5–4 L de água</b>. Saciedade e intestino funcionando.</li>
+        <li><b>Não corte sódio.</b> Piora treino e não é gordura o que você perde.</li>
+        <li><b>Refeed a cada 14 dias</b>: +120 g de carboidrato, −25 g de gordura, proteína igual. Sábado.</li>
+        <li><b>Álcool</b>: no máximo 1 ocasião a cada 15 dias, e entra no orçamento. Zero seria melhor — bate direto na gordura visceral e na síntese proteica.</li>
+      </ul>
+    </div>
+    <div class="card nutri">
+      <h3>Suplementos que valem o dinheiro</h3>
+      <ul>
+        <li><b>Creatina 5 g/dia</b>, todo dia, inclusive folga. Segura desempenho em déficit. Aviso: ela puxa 1–1,5 kg de água <em>para dentro</em> do músculo na primeira semana. A balança vai travar. Não é gordura, não entre em pânico.</li>
+        <li><b>Whey</b> — ferramenta para fechar os 190 g, não obrigatório.</li>
+        <li><b>Cafeína 200–300 mg</b> pré-treino, só até as 14h.</li>
+        <li><b>Ômega 3</b> se você come pouco peixe. <b>Vitamina D</b> só se o exame apontar.</li>
+      </ul>
+      <p style="margin-top:10px"><b>Termogênico e queimador: não.</b> Não movem o ponteiro e estragam seu sono, que move.</p>
+    </div>
+    <div class="card nutri">
+      <h3>Protocolo de ajuste · a cada 2 semanas</h3>
+      <p>Olhe a <b>média de 7 dias</b> do peso, nunca o número de um dia só.</p>
+      <ul>
+        <li>Perdeu <b>menos de 0,3 kg/semana</b> → tire 150 kcal de carboidrato do dia de folga <em>ou</em> some 1.500 passos. Uma coisa só.</li>
+        <li>Perdeu <b>0,4 a 0,9 kg/semana</b> → não mexa em nada. Está funcionando.</li>
+        <li>Perdeu <b>mais de 1,1 kg/semana</b> por duas semanas → some 150 kcal de carboidrato nos dias de treino. Nesse ritmo está saindo músculo junto.</li>
+      </ul>
+      <p style="margin-top:10px">Nunca mexa nas duas alavancas na mesma semana. Você perde a leitura do que causou o quê.</p>
+    </div>
+  </div>
+</section>
+
+<section id="periodizacao">
+  <div class="sechead"><h2>As 12 semanas</h2><span class="tag">3 blocos · descarga em 4, 8 e 12</span></div>
+  <p class="lead">A carga sobe, o cardio sobe, as calorias descem — nessa ordem, nunca tudo ao mesmo tempo. As semanas 4, 8 e 12 são de descarga: metade das séries, mesma carga, mais comida. Elas não são folga, são o que permite treinar pesado nas outras nove.</p>
+  <div class="tabwrap"><table id="tabPeriodo">
+    <thead><tr><th>Semana</th><th>Bloco</th><th>Esforço</th><th>Cardio Z2</th><th>HIIT</th><th>Passos</th><th>Calorias treino / folga</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+</section>
+
+<section id="regras">
+  <div class="sechead"><h2>As sete regras</h2><span class="tag">Se você só ler uma parte, leia esta</span></div>
+  <ol class="regras">
+    <li><b>A carga na barra é o seu seguro de músculo.</b> O déficit tira peso; o treino pesado decide se o que sai é gordura ou músculo. Se supino, agachamento e terra caírem duas semanas seguidas, você está cortando rápido demais — coma mais, não treine mais.</li>
+    <li><b>Proteína primeiro, sempre.</b> 190 g em qualquer dia. Monte o resto do prato depois que a proteína estiver garantida.</li>
+    <li><b>Passos ganham da esteira.</b> 12–14 mil por dia queimam mais no total da semana que qualquer sessão de cardio, sem te deixar com fome nem atrapalhar a recuperação.</li>
+    <li><b>Durma 7 a 9 horas.</b> Sono ruim em déficit tira músculo e enche o dia seguinte de fome. É a alavanca mais barata que você tem.</li>
+    <li><b>Meça a cintura, não só o peso.</b> Sua gordura é central e visceral sai antes da subcutânea: vai ter semana em que a balança não anda e a cintura cai 1 cm. Essa semana foi excelente.</li>
+    <li><b>Descarga não é opcional.</b> Semanas 4, 8 e 12. Metade do volume, mesma carga, mais comida. Pular descarga é como dirigir sem trocar óleo.</li>
+    <li><b>90% de aderência por 12 semanas ganha de 100% por 3.</b> O plano que você cumpre é melhor que o plano perfeito que você abandona na quarta semana.</li>
+  </ol>
+</section>
+
+<section id="registro">
+  <div class="sechead"><h2>Registro</h2><span class="tag">Salvo neste aparelho</span></div>
+  <p class="lead">Toda segunda, em jejum, depois do banheiro: peso (use a média dos 7 dias anteriores) e cintura na altura do umbigo, sem prender a barriga. Fotos no dia 1, na semana 6 e na semana 12, mesma luz e mesmo horário. InBody novo na semana 6 e na semana 12 — lá o número que importa não é o peso, é a massa muscular esquelética continuar perto de 40 kg enquanto a gordura cai.</p>
+  <div class="reg" id="regGrid"></div>
+</section>
+
+<p class="rodape"><b>Sobre os limites disso aqui:</b> este é um plano de treino e uma estratégia nutricional montados a partir do seu InBody de 10/09/2026 — não é prescrição médica. Sua gordura visceral está no nível 9, o teto da faixa normal, e o RCQ em 0,94: vale levar este documento para o seu nutricionista e fazer exames de sangue (glicemia, HbA1c, perfil lipídico, TGO/TGP) antes de começar, principalmente porque esses dois marcadores costumam andar juntos com alteração hepática e de lipídios. Dor articular aguda, tontura ou falta de ar no treino significam parar e procurar avaliação — não "aguentar".</p>
+
+</div>
+
+<div class="timer" id="timer" hidden>
+  <span class="t num" id="timerT">02:00</span>
+  <span class="q" id="timerQ"></span>
+  <button type="button" id="timerAdd">+30s</button>
+  <button type="button" id="timerStop">Parar</button>
+</div>
+
+<script>
+(function(){
+"use strict";
+var K = "pt_erick_v1:";
+function get(k,d){ try{ var v=localStorage.getItem(K+k); return v===null?d:v; }catch(e){ return d; } }
+function set(k,v){ try{ localStorage.setItem(K+k,v); }catch(e){} }
+
+/* ============ periodização ============ */
+var SEMANAS = [
+  {s:1, bloco:"Bloco 1 · Base",       rir:"RIR 3",   z2:"3 × 35 min", hiit:"—",          passos:"10.000", kcal:"2.400 / 2.100", nota:"Semana de calibragem. Ache as cargas com folga e anote todas. Não busque falha em nada."},
+  {s:2, bloco:"Bloco 1 · Base",       rir:"RIR 2–3", z2:"3 × 40 min", hiit:"1 × 12 min", passos:"11.000", kcal:"2.400 / 2.100", nota:"Suba a carga onde você fechou o topo da faixa de repetições na semana 1."},
+  {s:3, bloco:"Bloco 1 · Base",       rir:"RIR 2",   z2:"3 × 45 min", hiit:"1 × 12 min", passos:"12.000", kcal:"2.400 / 2.050", nota:"Semana mais pesada do bloco. Aqui a cintura já deve ter mexido."},
+  {s:4, bloco:"Descarga",             rir:"RIR 4",   z2:"3 × 30 min", hiit:"—",          passos:"10.000", kcal:"2.500 / 2.200", d:1, nota:"Descarga: faça 2 séries de cada exercício, mantendo a mesma carga. Zero falha, zero HIIT."},
+  {s:5, bloco:"Bloco 2 · Queima",     rir:"RIR 2",   z2:"4 × 40 min", hiit:"1 × 14 min", passos:"12.000", kcal:"2.350 / 2.000", nota:"Entram as técnicas de densidade: drop set na última série dos isoladores."},
+  {s:6, bloco:"Bloco 2 · Queima",     rir:"RIR 1–2", z2:"4 × 40 min", hiit:"2 × 14 min", passos:"12.000", kcal:"2.350 / 2.000", nota:"Refaça o InBody no fim desta semana. Alvo: massa muscular ainda em ~40 kg."},
+  {s:7, bloco:"Bloco 2 · Queima",     rir:"RIR 1–2", z2:"4 × 45 min", hiit:"2 × 14 min", passos:"13.000", kcal:"2.300 / 1.950", nota:"Semana mais dura do protocolo até aqui. Segure as cargas dos três principais."},
+  {s:8, bloco:"Descarga",             rir:"RIR 4",   z2:"3 × 30 min", hiit:"—",          passos:"10.000", kcal:"2.500 / 2.200", d:1, nota:"Descarga: 2 séries por exercício, mesma carga, mais comida. Você vai precisar dela."},
+  {s:9, bloco:"Bloco 3 · Definição",  rir:"RIR 1",   z2:"4 × 45 min", hiit:"2 × 15 min", passos:"13.000", kcal:"2.300 / 1.950", nota:"Volume dos acessórios cai um pouco; a carga dos compostos não cai nada. Esse é o sinal anti-catabólico."},
+  {s:10,bloco:"Bloco 3 · Definição",  rir:"RIR 1",   z2:"4 × 45 min", hiit:"2 × 15 min", passos:"14.000", kcal:"2.250 / 1.900", nota:"Fome aparece aqui. Ataque com volume de comida: verdura, clara, iogurte, água."},
+  {s:11,bloco:"Bloco 3 · Definição",  rir:"RIR 1",   z2:"4 × 50 min", hiit:"2 × 16 min", passos:"14.000", kcal:"2.250 / 1.900", nota:"Última semana de trabalho pesado. Grave os PRs — eles provam que o músculo ficou."},
+  {s:12,bloco:"Descarga + reteste",   rir:"RIR 3–4", z2:"3 × 30 min", hiit:"—",          passos:"12.000", kcal:"2.600 / 2.300", d:1, nota:"Descarga e reavaliação: InBody, fotos e medidas. Depois decidimos se continua o corte ou entra em manutenção."}
+];
+
+/* ============ treinos ============ */
+var DIAS = [
+ {id:"A", dia:"Segunda", nome:"Superior A", sub:"Força · peito e costas pesados", dur:"~70 min", tipo:"forca",
+  ex:[
+   {n:"Supino reto com barra", s:4, r:"5–7", d:180, o:"Duas séries de aquecimento antes. Esta é a carga que você NÃO deixa cair durante o corte — é ela que decide se os 40 kg de músculo ficam."},
+   {n:"Remada curvada com barra (pronada)", s:4, r:"6–8", d:150, o:"Tronco a 45°, puxa na direção do umbigo. Se a lombar está roubando, tirou peso demais das costas."},
+   {n:"Desenvolvimento com halteres sentado", s:3, r:"8–10", d:120, o:"Costas apoiadas, sem arquear a lombar. Ombro largo faz a cintura parecer menor — e a sua é o ponto a atacar."},
+   {n:"Puxada frontal aberta", s:3, r:"10–12", d:90, o:"Pausa de 1 segundo com a barra na altura do peito. Sem balanço."},
+   {n:"Elevação lateral", s:3, r:"15–20", d:45, o:"Peso leve, sem impulso de tronco. A partir da semana 5, drop set na última série."},
+   {n:"Rosca direta na barra W", s:3, r:"8–10", d:60, o:"Cotovelo colado no tronco. Braço é o seu elo relativamente mais fraco — trabalho direto 3× na semana."},
+   {n:"Tríceps testa", s:3, r:"10–12", d:60, o:"Desce controlado até a testa, cotovelo apontando para o teto."},
+   {n:"Prancha lateral", s:2, r:"40s por lado", d:45, o:"Quadril alto, corpo em linha reta. Core que sustenta, não abdominal de repetição."}
+  ]},
+ {id:"B", dia:"Terça", nome:"Inferior A", sub:"Força · dominante de joelho", dur:"~65 min", tipo:"forca",
+  ex:[
+   {n:"Agachamento livre", s:4, r:"5–8", d:180, o:"Profundidade que você controla com a lombar neutra. Se o quadril limita, use o hack machine sem culpa — o estímulo é o que importa."},
+   {n:"Leg press 45°", s:3, r:"10–12", d:150, o:"Pés na largura do ombro, no meio da plataforma. Não deixe a lombar descolar do banco na descida."},
+   {n:"Levantamento terra romeno", s:3, r:"8–10", d:120, o:"Posterior leve hoje — o pesado é na sexta. Barra raspando a coxa."},
+   {n:"Cadeira extensora", s:3, r:"12–15", d:75, o:"Pausa de 1 segundo no topo, desce em 3 segundos. É aqui que o quadríceps ganha densidade sem carga articular."},
+   {n:"Mesa flexora", s:3, r:"10–12", d:75, o:"Quadril colado no aparelho. Sem levantar a bunda para completar a repetição."},
+   {n:"Panturrilha em pé", s:4, r:"8–12", d:60, o:"Dois segundos de alongamento embaixo em toda repetição. Amplitude total ou não conta."},
+   {n:"Elevação de pernas suspenso", s:3, r:"10–15", d:60, o:"Sem balanço. Se não consegue controlar, faça na paralela apoiado."}
+  ]},
+ {id:"C", dia:"Quarta", nome:"Recuperação ativa", sub:"O dia que decide a gordura visceral", dur:"~60 min", tipo:"recup",
+  blocos:[
+   {t:"Cardio Z2 · 45 a 50 min", i:["Esteira inclinada 8–10% a 5–5,5 km/h, ou bike, ou elíptico.","Frequência cardíaca entre <b>115 e 135 bpm</b>. Você tem que conseguir conversar.","Sem impacto de preferência — a 91 kg os joelhos agradecem."]},
+   {t:"Mobilidade · 12 min", i:["<b>90/90 de quadril</b> — 5 trocas lentas para cada lado.","<b>Alongamento do sofá</b> (flexor do quadril) — 60s por perna.","<b>Abertura torácica</b> no rolo — 10 respirações profundas.","<b>Tornozelo na parede</b> — 15 repetições por lado. Isso melhora seu agachamento de terça."]},
+   {t:"Meta do dia", i:["<b>12.000 passos</b> no total, contando o cardio.","Comida de dia de folga: menos carboidrato, mesma proteína.","Se você só puder cortar uma coisa da semana, <b>não corte esta</b>. É neste dia que a gordura visceral sai."]}
+  ]},
+ {id:"D", dia:"Quinta", nome:"Superior B", sub:"Volume · costas e ombro", dur:"~70 min", tipo:"forca",
+  ex:[
+   {n:"Barra fixa pronada", s:4, r:"6–10", d:150, o:"Passou de 10 limpas? Coloque lastro. Não fecha 6? Use a assistida ou faça só a negativa em 4 segundos."},
+   {n:"Supino inclinado com halteres 30°", s:4, r:"8–10", d:120, o:"Desce até o halter na linha do peito, cotovelo a 45° do tronco."},
+   {n:"Remada baixa com triângulo", s:3, r:"10–12", d:105, o:"Pausa de 1 segundo na contração, peito aberto. Puxa com o cotovelo, não com a mão."},
+   {n:"Desenvolvimento Arnold ou máquina", s:3, r:"10–12", d:90, o:"Amplitude completa, sem travar o cotovelo no topo."},
+   {n:"Crucifixo inverso ou face pull", s:3, r:"15–20", d:45, o:"Deltoide posterior e postura. Cotovelo na altura da orelha, puxa para trás."},
+   {n:"Crossover na polia média", s:3, r:"12–15", d:60, o:"Alongamento máximo na abertura. Última série com drop a partir da semana 5."},
+   {n:"Rosca martelo + tríceps corda (bi-set)", s:3, r:"12 + 15", d:60, o:"Sem descanso entre os dois, 60s depois do par. Economiza tempo e sobe o gasto da sessão."},
+   {n:"Prancha com peso nas costas", s:3, r:"40–60s", d:45, o:"Glúteo contraído, costela para baixo. Não deixe a lombar afundar."}
+  ]},
+ {id:"E", dia:"Sexta", nome:"Inferior B", sub:"Posterior e glúteo", dur:"~65 min", tipo:"forca",
+  ex:[
+   {n:"Levantamento terra romeno com barra", s:4, r:"6–8", d:180, o:"Joelho levemente mole, barra raspando a coxa, quadril indo para trás. Você tem que sentir o posterior alongar — se sentir a lombar, parou de descer tarde demais."},
+   {n:"Agachamento búlgaro com halteres", s:3, r:"8–10 por perna", d:120, o:"Sua simetria é quase perfeita, então isto é escolha de estímulo, não correção. Tronco levemente à frente para pegar mais glúteo."},
+   {n:"Elevação pélvica com barra", s:3, r:"10–12", d:105, o:"Dois segundos de pausa no topo com o queixo para dentro. Glúteo forte protege sua lombar no terra."},
+   {n:"Cadeira flexora", s:3, r:"12–15", d:75, o:"Controle de 3 segundos na volta. É onde o posterior mais cresce."},
+   {n:"Cadeira abdutora", s:3, r:"15–20", d:45, o:"Tronco levemente inclinado à frente. Glúteo médio, estabilidade de quadril."},
+   {n:"Panturrilha sentado", s:4, r:"12–15", d:45, o:"Complementa a panturrilha em pé de terça — fibras diferentes."},
+   {n:"Abdominal na polia ajoelhado", s:3, r:"12–15", d:60, o:"Enrola a coluna, não flexiona o quadril. Carga progressiva como qualquer outro músculo."}
+  ]},
+ {id:"F", dia:"Sábado", nome:"Full body metabólico", sub:"Densidade + braço + HIIT", dur:"~50 min", tipo:"forca",
+  circuito:"Bloco 1 — circuito de 4 voltas. Sem descanso entre os exercícios, 90 segundos entre as voltas. Carga moderada: o objetivo é densidade, não recorde.",
+  ex:[
+   {n:"Agachamento goblet", s:4, r:"12", d:0, o:"Halter ou kettlebell no peito, cotovelo por dentro do joelho no fundo."},
+   {n:"Remada curvada com halteres", s:4, r:"12", d:0, o:"Os dois braços ao mesmo tempo, tronco firme a 45°."},
+   {n:"Desenvolvimento com halteres em pé", s:4, r:"10", d:0, o:"Glúteo e abdômen contraídos, sem arquear."},
+   {n:"Flexão de braço", s:4, r:"12–15", d:0, o:"Corpo em prancha. Se passar de 15 fácil, eleve os pés."},
+   {n:"Levantamento terra com halteres", s:4, r:"12", d:90, o:"Fecha a volta. 90 segundos de descanso e recomeça o circuito."},
+   {n:"Rosca alternada + tríceps francês (bi-set)", s:3, r:"12 + 12", d:45, o:"Bloco 2 — o ponto fraco. Sem pressa, contração forte."},
+   {n:"Elevação lateral em drop set", s:2, r:"15 + 15 + falha", d:60, o:"Cai o peso duas vezes sem descanso. Queima do ombro para fechar."},
+   {n:"HIIT na bike, remo ou escada", s:1, r:"8–10 tiros", d:0, o:"Bloco 3 — 30 segundos forte (RPE 8–9) / 90 segundos leve. Termina com 5 min em Z2 e alongamento. Zero HIIT nas semanas 4, 8 e 12."}
+  ]},
+ {id:"G", dia:"Domingo", nome:"Folga total", sub:"Sim, isso está no plano", dur:"—", tipo:"recup",
+  blocos:[
+   {t:"O que fazer", i:["<b>Pesagem e medida</b>: peso em jejum e cintura na altura do umbigo. Anote no registro do fim desta página.","<b>Meal prep</b>: deixe a proteína da semana pronta. Metade das dietas morre na segunda-feira por falta de comida pronta na quarta.","Caminhada leve, sol, 8.000 passos. Nada de treino."]},
+   {t:"O que não fazer", i:["Não compense a semana comendo tudo. Um domingo fora do plano apaga três dias de déficit.","Não treine 'porque sobrou energia'. Recuperação é onde a adaptação acontece.","Não pese em cima de um dia de refeed — a água vai mentir para você."]}
+  ]}
+];
+
+/* ============ estado ============ */
+var semAtual = parseInt(get("semana","1"),10) || 1;
+var diaAtual = get("dia","A");
+
+/* ---- seletor de semana ---- */
+var sel = document.getElementById("selSemana");
+SEMANAS.forEach(function(w){
+  var o = document.createElement("option");
+  o.value = w.s; o.textContent = "Semana " + w.s + (w.d ? " · descarga" : "");
+  sel.appendChild(o);
+});
+sel.value = semAtual;
+sel.addEventListener("change", function(){ semAtual = parseInt(sel.value,10); set("semana",semAtual); pintaSemana(); render(); marcaTabela(); });
+
+function semObj(){ return SEMANAS[semAtual-1]; }
+function pintaSemana(){
+  var w = semObj();
+  var tag = document.getElementById("faseTag");
+  tag.textContent = w.bloco;
+  tag.setAttribute("data-descarga", w.d ? "1" : "0");
+  document.getElementById("mRir").textContent = w.rir;
+  document.getElementById("mKcal").textContent = w.kcal;
+  document.getElementById("mPassos").textContent = w.passos;
+}
+
+/* ---- abas ---- */
+var abas = document.getElementById("abas");
+DIAS.forEach(function(d){
+  var b = document.createElement("button");
+  b.type = "button"; b.setAttribute("role","tab"); b.dataset.id = d.id;
+  b.innerHTML = '<span class="d">' + d.dia.slice(0,3) + '</span><span class="n">' + d.nome + '</span>';
+  b.addEventListener("click", function(){ diaAtual = d.id; set("dia",d.id); render(); });
+  abas.appendChild(b);
+});
+
+/* ---- render do dia ---- */
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function render(){
+  Array.prototype.forEach.call(abas.children, function(b){
+    b.setAttribute("aria-selected", b.dataset.id === diaAtual ? "true" : "false");
+  });
+  var d = DIAS.filter(function(x){ return x.id === diaAtual; })[0];
+  var w = semObj();
+  var h = '<div class="painel"><div class="painel-top"><div><h3>' + esc(d.dia) + ' · ' + esc(d.nome) + '</h3>' +
+          '<p class="obj">' + esc(d.sub) + '</p></div><div class="dur">' + esc(d.dur) + '</div></div>';
+
+  if (d.tipo === "forca") {
+    h += '<p class="aviso" style="background:var(--surface2);color:var(--ink2)"><b>' + esc(w.rir) + '</b> nesta semana — ' + w.nota + '</p>';
+    if (w.d) h += '<p class="aviso"><b>Semana de descarga:</b> faça 2 séries de cada exercício em vez das prescritas, com a mesma carga. Pare longe da falha e pule o HIIT.</p>';
+  }
+  if (d.circuito) h += '<p class="circuito">' + esc(d.circuito) + '</p>';
+
+  if (d.ex) {
+    d.ex.forEach(function(e, i){
+      var kc = "c:" + semAtual + ":" + d.id + ":" + i, kf = "f:" + semAtual + ":" + d.id + ":" + i;
+      var carga = get(kc,""), feito = get(kf,"") === "1";
+      h += '<div class="ex' + (feito ? " feito" : "") + '" data-k="' + kf + '">' +
+           '<div class="idx num">' + (i+1) + '</div>' +
+           '<div class="nome">' + esc(e.n) + '</div>' +
+           '<div class="presc"><span class="sr">' + esc(e.s) + '×' + esc(e.r) + '</span>' +
+           (e.d ? '<button type="button" class="desc" data-seg="' + e.d + '" data-nome="' + esc(e.n) + '">' + e.d + 's</button>' : '') +
+           '</div>' +
+           '<div class="obs">' + e.o + '</div>' +
+           '<div class="log"><input type="text" id="in_' + kc.replace(/:/g,"_") + '" data-k="' + kc + '" value="' + esc(carga) + '" placeholder="carga · kg" inputmode="decimal">' +
+           '<label><input type="checkbox" id="ck_' + kf.replace(/:/g,"_") + '" data-k="' + kf + '"' + (feito ? " checked" : "") + '> concluído</label></div>' +
+           '</div>';
+    });
+  }
+  if (d.blocos) {
+    d.blocos.forEach(function(b){
+      h += '<div class="blococard"><h4>' + esc(b.t) + '</h4><ul>' + b.i.map(function(x){ return "<li>" + x + "</li>"; }).join("") + '</ul></div>';
+    });
+  }
+  h += '</div>';
+  document.getElementById("painelDia").innerHTML = h;
+
+  var p = document.getElementById("painelDia");
+  Array.prototype.forEach.call(p.querySelectorAll('input[type=text]'), function(inp){
+    inp.addEventListener("change", function(){ set(inp.dataset.k, inp.value); });
+  });
+  Array.prototype.forEach.call(p.querySelectorAll('input[type=checkbox]'), function(ck){
+    ck.addEventListener("change", function(){
+      set(ck.dataset.k, ck.checked ? "1" : "0");
+      var row = ck.closest(".ex"); if (row) row.classList.toggle("feito", ck.checked);
+    });
+  });
+  Array.prototype.forEach.call(p.querySelectorAll(".desc"), function(btn){
+    btn.addEventListener("click", function(){ iniciaTimer(parseInt(btn.dataset.seg,10), btn.dataset.nome); });
+  });
+}
+
+/* ---- cronômetro de descanso ---- */
+var tId = null, tRest = 0;
+var elT = document.getElementById("timer"), elTt = document.getElementById("timerT"), elTq = document.getElementById("timerQ");
+function fmt(s){ var m = Math.floor(s/60), r = s%60; return (m<10?"0":"")+m+":"+(r<10?"0":"")+r; }
+function pinta(){ elTt.textContent = fmt(Math.max(0,tRest)); }
+function iniciaTimer(seg, nome){
+  tRest = seg; elTq.textContent = "descanso · " + nome; elT.hidden = false; elT.classList.remove("fim"); pinta();
+  if (tId) clearInterval(tId);
+  tId = setInterval(function(){
+    tRest--; pinta();
+    if (tRest <= 0){ clearInterval(tId); tId = null; elT.classList.add("fim"); elTq.textContent = "acabou o descanso · " + nome; bip(); }
+  }, 1000);
+}
+function bip(){
+  try{
+    var C = window.AudioContext || window.webkitAudioContext; if(!C) return;
+    var a = new C(), o = a.createOscillator(), g = a.createGain();
+    o.frequency.value = 880; o.connect(g); g.connect(a.destination);
+    g.gain.setValueAtTime(.001,a.currentTime); g.gain.exponentialRampToValueAtTime(.25,a.currentTime+.02);
+    g.gain.exponentialRampToValueAtTime(.001,a.currentTime+.5);
+    o.start(); o.stop(a.currentTime+.55);
+  }catch(e){}
+}
+document.getElementById("timerAdd").addEventListener("click", function(){
+  tRest += 30; elT.classList.remove("fim"); pinta();
+  if (!tId) tId = setInterval(function(){ tRest--; pinta(); if(tRest<=0){ clearInterval(tId); tId=null; elT.classList.add("fim"); bip(); } },1000);
+});
+document.getElementById("timerStop").addEventListener("click", function(){
+  if (tId) clearInterval(tId); tId = null; elT.hidden = true;
+});
+
+/* ---- tabela de periodização ---- */
+var tb = document.querySelector("#tabPeriodo tbody");
+SEMANAS.forEach(function(w){
+  var tr = document.createElement("tr");
+  tr.dataset.s = w.s;
+  if (w.d) tr.className = "descargaRow";
+  tr.innerHTML = '<td class="n"><b>' + w.s + '</b></td><td>' + w.bloco + '</td><td class="n">' + w.rir +
+                 '</td><td class="n">' + w.z2 + '</td><td class="n">' + w.hiit + '</td><td class="n">' + w.passos +
+                 '</td><td class="n">' + w.kcal + '</td>';
+  tb.appendChild(tr);
+});
+function marcaTabela(){
+  Array.prototype.forEach.call(tb.children, function(tr){
+    tr.classList.toggle("agora", parseInt(tr.dataset.s,10) === semAtual);
+  });
+}
+
+/* ---- registro semanal ---- */
+var regGrid = document.getElementById("regGrid");
+for (var i = 0; i <= 12; i++){
+  var kp = "peso:" + i, kw = "cint:" + i;
+  var div = document.createElement("div");
+  div.className = "regitem";
+  div.innerHTML = '<span>' + (i === 0 ? "Início · 10 set" : "Semana " + i) + '</span><div class="par">' +
+    '<input type="text" id="rp_' + i + '" data-k="' + kp + '" inputmode="decimal" placeholder="kg" value="' + esc(get(kp, i === 0 ? "91,3" : "")) + '">' +
+    '<input type="text" id="rc_' + i + '" data-k="' + kw + '" inputmode="decimal" placeholder="cintura cm" value="' + esc(get(kw,"")) + '"></div>';
+  regGrid.appendChild(div);
+}
+Array.prototype.forEach.call(regGrid.querySelectorAll("input"), function(inp){
+  inp.addEventListener("change", function(){ set(inp.dataset.k, inp.value); desenhaPeso(); });
+});
+
+/* ============ gráficos ============ */
+function svgEl(w,h){ return '<svg class="chart-svg" viewBox="0 0 ' + w + ' ' + h + '" role="img" preserveAspectRatio="xMidYMid meet">'; }
+
+/* composição corporal: duas barras empilhadas */
+(function(){
+  var W = 460, H = 190, L = 58, R = 58, T = 16, B = 34;
+  var max = 95, iw = W - L - R;
+  var barras = [
+    {rot:"Hoje", magra:70.0, gord:21.3, pgc:"23,4%"},
+    {rot:"Meta", magra:70.0, gord:12.3, pgc:"~15%"}
+  ];
+  var bh = 44, gap = 26, x = function(v){ return L + (v/max)*iw; };
+  var s = svgEl(W,H);
+  [0,20,40,60,80].forEach(function(v){
+    s += '<line class="grid" x1="' + x(v).toFixed(1) + '" y1="' + T + '" x2="' + x(v).toFixed(1) + '" y2="' + (H-B+4) + '"></line>';
+    s += '<text class="ax" x="' + x(v).toFixed(1) + '" y="' + (H-B+18) + '" text-anchor="middle">' + v + '</text>';
+  });
+  s += '<text class="ax" x="' + (W-R) + '" y="' + (H-B+18) + '" text-anchor="end">kg</text>';
+  barras.forEach(function(b,i){
+    var y = T + i*(bh+gap);
+    var wm = x(b.magra)-L, wg = (b.gord/max)*iw;
+    s += '<text class="lbl" x="' + (L-10) + '" y="' + (y+bh/2-2) + '" text-anchor="end">' + b.rot + '</text>';
+    s += '<text class="ax" x="' + (L-10) + '" y="' + (y+bh/2+13) + '" text-anchor="end">' + b.pgc + '</text>';
+    s += '<rect x="' + L + '" y="' + y + '" width="' + wm.toFixed(1) + '" height="' + bh + '" rx="0" fill="var(--serie-magra)"></rect>';
+    s += '<rect x="' + (L+wm+2).toFixed(1) + '" y="' + y + '" width="' + Math.max(0,wg-2).toFixed(1) + '" height="' + bh + '" rx="0" fill="var(--serie-gordura)"></rect>';
+    s += '<rect x="' + (L+wm+wg-4).toFixed(1) + '" y="' + y + '" width="4" height="' + bh + '" rx="0" fill="var(--serie-gordura)"></rect>';
+    s += '<text class="lbl-inv" x="' + (L+12) + '" y="' + (y+bh/2+4) + '">' + b.magra.toFixed(1).replace(".",",") + ' kg magra</text>';
+    s += '<text class="lbl" x="' + (L+wm+wg+8).toFixed(1) + '" y="' + (y+bh/2+4) + '">' + b.gord.toFixed(1).replace(".",",") + ' kg</text>';
+  });
+  s += '</svg>';
+  document.getElementById("chartComp").innerHTML = s;
+})();
+
+/* projeção de peso */
+function desenhaPeso(){
+  var W = 460, H = 230, L = 40, R = 46, T = 14, B = 30;
+  var iw = W-L-R, ih = H-T-B, semMax = 16, yMin = 80, yMax = 93;
+  var x = function(v){ return L + (v/semMax)*iw; };
+  var y = function(v){ return T + ((yMax-v)/(yMax-yMin))*ih; };
+  var p0 = 91.3, meta = 82.3;
+  var rapido = [], lento = [];
+  for (var w = 0; w <= semMax; w++){
+    rapido.push([x(w), y(Math.max(meta, p0 - 0.8*w))]);
+    lento.push([x(w), y(Math.max(meta, p0 - 0.5*w))]);
+  }
+  var band = rapido.map(function(p){ return p[0].toFixed(1)+","+p[1].toFixed(1); }).join(" ") + " " +
+             lento.slice().reverse().map(function(p){ return p[0].toFixed(1)+","+p[1].toFixed(1); }).join(" ");
+  var s = svgEl(W,H);
+  [92,90,88,86,84,82].forEach(function(v){
+    s += '<line class="grid" x1="' + L + '" y1="' + y(v).toFixed(1) + '" x2="' + (W-R) + '" y2="' + y(v).toFixed(1) + '"></line>';
+    s += '<text class="ax" x="' + (L-6) + '" y="' + (y(v)+3.5).toFixed(1) + '" text-anchor="end">' + v + '</text>';
+  });
+  s += '<polygon points="' + band + '" fill="var(--band)" opacity=".55"></polygon>';
+  s += '<line x1="' + L + '" y1="' + y(82.3).toFixed(1) + '" x2="' + (W-R) + '" y2="' + y(82.3).toFixed(1) + '" stroke="var(--serie-magra)" stroke-width="2" stroke-dasharray="5 4"></line>';
+  s += '<text class="lbl" x="' + (W-R+5) + '" y="' + (y(82.3)+4).toFixed(1) + '" style="fill:var(--serie-magra)">meta<tspan x="' + (W-R+5) + '" dy="13">82,3</tspan></text>';
+  [0,4,8,12,16].forEach(function(w){
+    s += '<text class="ax" x="' + x(w).toFixed(1) + '" y="' + (H-B+16) + '" text-anchor="middle">' + (w===0?"início":"s"+w) + '</text>';
+  });
+  s += '<line class="axline" x1="' + L + '" y1="' + (H-B+2) + '" x2="' + (W-R) + '" y2="' + (H-B+2) + '"></line>';
+  var pts = [];
+  for (var i2 = 0; i2 <= 12; i2++){
+    var v = parseFloat(String(get("peso:"+i2, i2===0?"91,3":"")).replace(",","."));
+    if (!isNaN(v) && v > 40 && v < 200) pts.push([i2, v]);
+  }
+  if (pts.length > 1){
+    s += '<polyline points="' + pts.map(function(p){ return x(p[0]).toFixed(1)+","+y(Math.min(yMax,Math.max(yMin,p[1]))).toFixed(1); }).join(" ") +
+         '" fill="none" stroke="var(--serie-gordura)" stroke-width="2" stroke-linejoin="round"></polyline>';
+  }
+  pts.forEach(function(p){
+    var cy = y(Math.min(yMax,Math.max(yMin,p[1])));
+    s += '<circle cx="' + x(p[0]).toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="5" fill="var(--serie-gordura)" stroke="var(--surface)" stroke-width="2"><title>' +
+         (p[0]===0?"Início":"Semana "+p[0]) + ": " + String(p[1]).replace(".",",") + " kg</title></circle>";
+  });
+  if (pts.length){
+    var u = pts[pts.length-1];
+    s += '<text class="lbl" x="' + (x(u[0])+9).toFixed(1) + '" y="' + (y(Math.min(yMax,Math.max(yMin,u[1])))-9).toFixed(1) + '">' + String(u[1]).replace(".",",") + ' kg</text>';
+  }
+  s += '</svg>';
+  document.getElementById("chartPeso").innerHTML = s;
+}
+
+pintaSemana(); render(); marcaTabela(); desenhaPeso();
+})();
+</script>
+</body>
+</html>
