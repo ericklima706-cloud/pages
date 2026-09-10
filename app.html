@@ -240,6 +240,8 @@ a{color:var(--accent); text-decoration:none}
 .fase div{flex:1 1 0; background:var(--card2); border-radius:10px; padding:8px 10px; font-size:12.5px; line-height:1.3; color:var(--label2)}
 .fase div b{display:block; font-size:10px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--accent); margin-bottom:2px}
 .fase div.on{background:var(--accent-soft)}
+.canais{display:flex; gap:6px; margin-bottom:10px}
+.canais a{flex:1 1 0; text-align:center; padding:9px 6px; font-size:13px}
 .divisor{display:flex; align-items:center; gap:10px; margin:20px 2px 12px; font-size:11px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--label3)}
 .divisor::before,.divisor::after{content:""; flex:1 1 auto; height:.5px; background:var(--sep)}
 .rodapeNota{margin:26px 4px 0; font-size:12px; color:var(--label3); line-height:1.45}
@@ -713,24 +715,131 @@ def('fazendeiro','piso','pesoPe',
   {jo:[48,92], pe:[40,110], jo2:[72,94], pe2:[80,108], co:[50,64], ma:[50,82], co2:[70,64], ma2:[70,82]},
   'Halteres pesados, ombro para trás', 'Caminha em linha reta, tronco firme');
 
-/* Interpola as duas poses para animar o movimento. Chaves ausentes de um lado
-   caem para o valor do outro, então poses assimétricas não quebram. */
-function poseLerp(A, B, t){
-  var out = {}, k;
-  for (k in A){
-    var a = A[k], b = (k in B) ? B[k] : a;
-    out[k] = (a && a.length === 2 && b && b.length === 2)
-      ? [a[0] + (b[0]-a[0])*t, a[1] + (b[1]-a[1])*t]
-      : a;
+/* ===================== ESQUELETO =====================
+   As poses foram desenhadas coordenada a coordenada, então o mesmo osso
+   acabou com comprimentos diferentes na posição inicial e na final.
+   Interpolar coordenada a coordenada esticava o corpo no meio do caminho.
+   Aqui o corpo é reconstruído a partir do quadril: cada segmento tem um
+   comprimento fixo e só o ÂNGULO é interpolado — que é como articulação
+   funciona, e por isso o membro descreve um arco em vez de uma reta.      */
+var SEGMENTOS = [           /* pai, filho — sempre do quadril para fora */
+  ["qu","om"], ["om","ca"],
+  ["om","co"], ["co","ma"],
+  ["om","co2"], ["co2","ma2"],
+  ["qu","jo"], ["jo","pe"],
+  ["qu","jo2"], ["jo2","pe2"]
+];
+function ang(a,b){ return Math.atan2(b[1]-a[1], b[0]-a[0]); }
+function comp(a,b){ return Math.hypot(b[0]-a[0], b[1]-a[1]); }
+function daPolar(o, a, L){ return [o[0] + Math.cos(a)*L, o[1] + Math.sin(a)*L]; }
+function normAng(x){ while (x > Math.PI) x -= 2*Math.PI; while (x < -Math.PI) x += 2*Math.PI; return x; }
+
+/* Lê uma pose como ângulos + comprimentos por segmento. */
+function leEsqueleto(p){
+  var A = {}, L = {};
+  SEGMENTOS.forEach(function(sg){
+    var pai = p[sg[0]], filho = p[sg[1]];
+    if (!pai || !filho) return;
+    A[sg[1]] = ang(pai, filho); L[sg[1]] = comp(pai, filho);
+  });
+  return {raiz: p.qu, ang: A, len: L};
+}
+/* Remonta as coordenadas a partir do quadril, com os comprimentos dados. */
+function montaPose(base, raiz, angs, lens){
+  var p = {}, k;
+  for (k in base) if (!(k in {qu:1,om:1,ca:1,co:1,ma:1,co2:1,ma2:1,jo:1,pe:1,jo2:1,pe2:1})) p[k] = base[k];
+  p.qu = raiz;
+  SEGMENTOS.forEach(function(sg){
+    var pai = p[sg[0]];
+    if (!pai || !(sg[1] in angs)) return;
+    p[sg[1]] = daPolar(pai, angs[sg[1]], lens[sg[1]]);
+  });
+  return p;
+}
+/* Fixa um esqueleto único por exercício (média dos dois desenhos) e redesenha
+   as duas poses com ele, mantendo os ângulos que cada uma tinha. */
+function normalizaFIG(){
+  for (var k in FIG){
+    var ex = FIG[k];
+    if (!ex.a || !ex.a.qu || !ex.b || !ex.b.qu) continue;
+    var eA = leEsqueleto(ex.a), eB = leEsqueleto(ex.b), L = {}, j;
+    for (j in eA.len) L[j] = (j in eB.len) ? (eA.len[j] + eB.len[j]) / 2 : eA.len[j];
+    for (j in eB.len) if (!(j in L)) L[j] = eB.len[j];
+    ex.esq = L;
+    ex.a = montaPose(ex.a, eA.raiz, eA.ang, L);
+    ex.b = montaPose(ex.b, eB.raiz, eB.ang, L);
+    ex._ea = leEsqueleto(ex.a); ex._eb = leEsqueleto(ex.b);
+    /* O pé fica no chão, a mão fica na barra: a articulação que menos se
+       desloca entre as duas poses é o ponto fixo do movimento. Sem isso o
+       corpo remontado a partir do quadril desliza e o apoio sai do lugar. */
+    var cands = ["ma","pe","qu","om"], melhor = "qu", menor = Infinity;
+    cands.forEach(function(c){
+      if (!ex.a[c] || !ex.b[c]) return;
+      var dd = comp(ex.a[c], ex.b[c]);
+      if (dd < menor){ menor = dd; melhor = c; }
+    });
+    ex._anc = melhor;
   }
-  for (k in B) if (!(k in out)) out[k] = B[k];
-  return out;
 }
-function quadroAnim(ex, t){
-  var p = poseLerp(ex.a, ex.b, t);
-  return '<svg viewBox="' + (ex.vb || '0 0 120 120') + '" class="figsvg" role="img" aria-label="Movimento em andamento">' +
-         (CEN[ex.cen] || CEN.nenhum)() + corpo(p) + (CARGA[ex.carga] || CARGA.nenhuma)(p) + '</svg>';
+
+/* Interpola no espaço de ângulos: os ossos não mudam de tamanho e o
+   movimento sai em arco. */
+function poseLerp(A, B, t, ex){
+  if (!ex || !ex._ea || !ex._eb){
+    var out = {}, k;
+    for (k in A){
+      var a = A[k], b = (k in B) ? B[k] : a;
+      out[k] = (a && a.length === 2 && b && b.length === 2)
+        ? [a[0] + (b[0]-a[0])*t, a[1] + (b[1]-a[1])*t] : a;
+    }
+    return out;
+  }
+  var raiz = [ex._ea.raiz[0] + (ex._eb.raiz[0]-ex._ea.raiz[0])*t,
+              ex._ea.raiz[1] + (ex._eb.raiz[1]-ex._ea.raiz[1])*t];
+  var angs = {}, j;
+  for (j in ex._ea.ang){
+    var a0 = ex._ea.ang[j], a1 = (j in ex._eb.ang) ? ex._eb.ang[j] : a0;
+    angs[j] = a0 + normAng(a1 - a0) * t;
+  }
+  var p = montaPose(A, raiz, angs, ex.esq);
+  var anc = ex._anc;
+  if (anc && p[anc] && A[anc] && B[anc]){
+    var alvo = [A[anc][0] + (B[anc][0]-A[anc][0])*t, A[anc][1] + (B[anc][1]-A[anc][1])*t];
+    var dx = alvo[0] - p[anc][0], dy = alvo[1] - p[anc][1], k2;
+    if (dx || dy) for (k2 in p) if (p[k2] && p[k2].length === 2) p[k2] = [p[k2][0]+dx, p[k2][1]+dy];
+  }
+  return p;
 }
+function quadroAnim(ex, t, opt){
+  opt = opt || {};
+  var p = poseLerp(ex.a, ex.b, t, ex);
+  var s = '<svg viewBox="' + (ex.vb || '0 0 120 120') + '" class="figsvg" role="img" aria-label="Movimento em andamento">';
+  s += (CEN[ex.cen] || CEN.nenhum)();
+  if (opt.fantasma){                       /* silhueta da posição inicial, para ver a amplitude */
+    s += '<g opacity=".16">' + corpo(ex.a) + '</g>';
+  }
+  if (opt.trajeto && ex._traj) s += ex._traj;
+  s += corpo(p) + (CARGA[ex.carga] || CARGA.nenhuma)(p) + '</svg>';
+  return s;
+}
+/* Traça o caminho que a carga percorre na repetição — o "bar path" que
+   todo treinador olha. Calculado uma vez por exercício. */
+function calculaTrajeto(ex){
+  if (ex._traj !== undefined) return ex._traj;
+  var pts = [], i, p;
+  for (i = 0; i <= 24; i++){
+    p = poseLerp(ex.a, ex.b, i/24, ex);
+    if (!p.ma) { ex._traj = ""; return ""; }
+    pts.push(p.ma);
+  }
+  var dist = Math.hypot(pts[24][0]-pts[0][0], pts[24][1]-pts[0][1]);
+  if (dist < 14){ ex._traj = ""; return ""; }
+  ex._traj = '<polyline points="' + pts.map(function(q){ return q[0].toFixed(1)+","+q[1].toFixed(1); }).join(" ") +
+    '" fill="none" stroke="var(--forca)" stroke-width="1.6" stroke-dasharray="3 3" opacity=".5" stroke-linecap="round"></polyline>';
+  return ex._traj;
+}
+normalizaFIG();
+for (var _kk in FIG){ FIG[_kk]._traj = undefined; calculaTrajeto(FIG[_kk]); }
 
 FIG.prancha.ta = 'Posição correta'; FIG.prancha.tb = 'Erro comum';
 var RECORTE = {supino:'0 24 120 96', tricepsTesta:'0 26 120 94', flexao:'0 46 120 74', prancha:'0 60 120 60', flexoraDeit:'0 46 120 74', pelvica:'0 46 120 74', legPress:'0 20 120 100', remadaBaixa:'0 26 120 94'};
@@ -1026,7 +1135,9 @@ function renderAgora(itens){
 }
 
 /* ===================== tela TREINO ===================== */
-function ytBusca(nome){ return "https://www.youtube.com/results?search_query=" + encodeURIComponent(nome + " execução correta"); }
+function ytBusca(nome, canal){
+  return "https://www.youtube.com/results?search_query=" + encodeURIComponent((canal ? canal + " " : "") + nome + (canal ? "" : " execução correta"));
+}
 function idYT(url){
   var m = String(url).match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([A-Za-z0-9_-]{11})/);
   return m ? m[1] : (/^[A-Za-z0-9_-]{11}$/.test(String(url).trim()) ? String(url).trim() : null);
@@ -1398,7 +1509,7 @@ function faseDoCiclo(u){
 function pintaDemo(u){
   var f = faseDoCiclo(u), palco = $("demoPalco");
   if (!palco) return;
-  palco.innerHTML = quadroAnim(demo.ex, f.t);
+  palco.innerHTML = quadroAnim(demo.ex, f.t, {trajeto:1, fantasma:1});
   var sl = $("demoSlider"); if (sl && document.activeElement !== sl) sl.value = Math.round(u*1000);
   var a = $("faseA"), b = $("faseB");
   if (a && b){ a.classList.toggle("on", f.fase === 2 || f.fase === 3); b.classList.toggle("on", f.fase === 0 || f.fase === 1); }
@@ -1427,9 +1538,13 @@ function secaoYouTube(figKey, nome){
     '<div class="campo"><a class="btnp" href="https://www.youtube.com/watch?v='+esc(id)+'" target="_blank" rel="noopener">Abrir no YouTube ↗</a>'+
     '<button class="btnp" id="vTrocar">Trocar</button></div>';
   return '<div class="divisor">Vídeo do YouTube · opcional</div>'+
-    '<p class="dica" style="margin:0 2px 10px">Quer ver uma pessoa executando? Busque, copie o endereço e cole aqui uma vez — daí em diante o vídeo toca <b>dentro</b> desta janela, sem sair do app.</p>'+
-    '<div class="campo"><input type="text" id="vLink" placeholder="cole o link do YouTube" inputmode="url"><button class="btnp" id="vSalvar">Salvar</button></div>'+
-    '<a class="btnp" style="display:block;text-align:center;margin-top:8px" href="'+ytBusca(nome)+'" target="_blank" rel="noopener">Buscar no YouTube ↗</a>';
+    '<p class="dica" style="margin:0 2px 10px">Quer ver uma pessoa executando? Toque num canal, copie o endereço do vídeo e cole aqui <b>uma vez</b> — daí em diante ele toca dentro desta janela, sem sair do app.</p>'+
+    '<div class="canais">'+
+      '<a class="btnp" href="'+ytBusca(nome,"Felipe Franco")+'" target="_blank" rel="noopener">Felipe Franco ↗</a>'+
+      '<a class="btnp" href="'+ytBusca(nome,"Muzy")+'" target="_blank" rel="noopener">Muzy ↗</a>'+
+      '<a class="btnp" href="'+ytBusca(nome)+'" target="_blank" rel="noopener">Buscar geral ↗</a>'+
+    '</div>'+
+    '<div class="campo"><input type="text" id="vLink" placeholder="cole o link do YouTube" inputmode="url"><button class="btnp" id="vSalvar">Salvar</button></div>';
 }
 function ligaYouTube(figKey, nome){
   if ($("vTrocar")) $("vTrocar").addEventListener("click", function(){ del("vid:"+figKey); abreDemo(figKey, nome); });
@@ -1465,7 +1580,7 @@ function abreDemo(figKey, nome, cue){
         '<div id="faseA"><b>'+esc(ex.ta||"1 · Início")+'</b>'+esc(ex.la)+'</div>'+
         '<div id="faseB"><b>'+esc(ex.tb||"2 · Fim")+'</b>'+esc(ex.lb)+'</div>'+
       '</div>'+
-      '<p class="dica" style="margin:2px 2px 8px">Repare no ritmo: 1 segundo para levar até o fim, quase 2 para voltar. <b>A volta lenta é onde o músculo é preservado</b> — no déficit, isso vale mais que carga extra.</p></div>';
+      '<p class="dica" style="margin:2px 2px 8px">A linha pontilhada é o <b>caminho que a carga percorre</b> e a silhueta clara é a posição de partida, para você ver a amplitude inteira. Repare no ritmo: 1 segundo para levar até o fim, quase 2 para voltar — <b>a volta lenta é onde o músculo é preservado</b>, e no déficit isso vale mais que carga extra.</p></div>';
   }
   if (cue) h += '<p class="dica" style="margin:0 2px 4px">'+esc(cue)+'</p>';
   h += secaoYouTube(figKey, nome);
