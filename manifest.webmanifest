@@ -1,0 +1,17 @@
+{
+  "name": "Coach Erick",
+  "short_name": "Coach",
+  "description": "Treino do dia, cardápio, água, sono e progresso do protocolo de 12 semanas.",
+  "start_url": "app.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#15181A",
+  "theme_color": "#F2F2F7",
+  "lang": "pt-BR",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
