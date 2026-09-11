@@ -1,0 +1,49 @@
+# Publica o site no GitHub Pages a cada push no main.
+# O passo configure-pages com enablement: true LIGA o GitHub Pages sozinho
+# na primeira execução, usando a permissão pages: write deste workflow —
+# não é preciso mexer em Settings.
+name: Publicar no GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Baixar o repositório
+        uses: actions/checkout@v4
+
+      - name: Ligar e configurar o Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Montar o site
+        run: |
+          mkdir -p _site
+          cp *.html *.png *.webmanifest sw.js _site/
+          ls -la _site
+
+      - name: Enviar os arquivos
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Publicar
+        id: deploy
+        uses: actions/deploy-pages@v4
