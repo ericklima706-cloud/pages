@@ -1,12 +1,24 @@
-# Publica o site no GitHub Pages a cada push no main.
-# O passo configure-pages com enablement: true LIGA o GitHub Pages sozinho
-# na primeira execução, usando a permissão pages: write deste workflow —
-# não é preciso mexer em Settings.
+# Publica o site no GitHub Pages.
+#
+# A primeira execução falhou com "Create Pages site failed: Resource not
+# accessible by integration": o GITHUB_TOKEN não pode criar o site do Pages
+# enquanto Settings > Actions > General > Workflow permissions estiver em
+# somente-leitura. O bloco permissions: abaixo só consegue reduzir esse teto,
+# nunca aumentar.
+#
+# Por isso o gatilho de push está desligado — sem ele, este workflow não
+# falha a cada commit. Para ligar o Pages, escolha um caminho:
+#
+#   A) Settings > Pages > Source: "Deploy from a branch" > main > / (root).
+#      Publica direto, sem Actions. Este workflow fica sem uso.
+#
+#   B) Settings > Actions > General > Workflow permissions:
+#      "Read and write permissions". Depois rode este workflow manualmente
+#      (aba Actions > Publicar no GitHub Pages > Run workflow) e devolva o
+#      gatilho de push abaixo para publicar sozinho a cada commit.
 name: Publicar no GitHub Pages
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
