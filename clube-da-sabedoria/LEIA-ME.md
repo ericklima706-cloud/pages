@@ -2,7 +2,7 @@
 
 | Endereço | O que é |
 |---|---|
-| `/` | Divide as visitas meio a meio entre as duas versões e lembra a escolha de cada pessoa. Use este endereço nos anúncios. |
+| `/` | Use este endereço nos anúncios. Hoje manda todas as visitas para `/vturb/`. Com `TESTE_LIGADO = true` no `index.html`, divide meio a meio entre as duas versões e lembra a escolha de cada pessoa. Só ligue depois que o vídeo estiver em `player/video/`. |
 | `/vturb/` | Versão A: player oficial da VTurb (vídeo 691e1c69…). |
 | `/player/` | Versão B: player próprio. O vídeo fica em `player/video/` (HLS em 2 qualidades) e o `hls.light.min.js` fica na mesma pasta, então nada depende de outro site. |
 
