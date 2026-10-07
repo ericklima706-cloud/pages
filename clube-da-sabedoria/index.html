@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clube da Sabedoria</title>
+<style>html,body{background:#000;margin:0}</style>
+<!-- Teste A/B: com TESTE_LIGADO = true, manda metade das visitas para cada
+     página e lembra a escolha de cada pessoa. Desligado, todas vão para a
+     versão VTurb. A query string (UTMs) segue junto. -->
+<script>
+(function () {
+  var TESTE_LIGADO = false; // ligar quando o vídeo do player próprio estiver em player/video/
+  var v = 'vturb';
+  if (TESTE_LIGADO) {
+    try { v = localStorage.getItem('cs_ab'); } catch (e) {}
+    if (v !== 'vturb' && v !== 'player') {
+      v = Math.random() < 0.5 ? 'vturb' : 'player';
+      try { localStorage.setItem('cs_ab', v); } catch (e) {}
+    }
+  }
+  location.replace(v + '/' + location.search + location.hash);
+})();
+</script>
+</head>
+<body>
+<noscript><a href="vturb/" style="color:#fff;font-family:sans-serif">Assistir ao vídeo</a></noscript>
+</body>
+</html>
